@@ -1,0 +1,19 @@
+# IDE
+.idea/
+.vscode/
+.vs/
+*.iml
+
+# Node
+node_modules
+yarn.lock
+yarn-error.log
+
+# Java
+*.jar
+
+# Build
+.antlr/
+gen/
+
+
