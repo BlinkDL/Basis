@@ -1,0 +1,4 @@
+*.ba linguist-language=basis
+*.md linguist-language=basis
+*.interp linguist-language=antlr
+*.tokens linguist-language=antlr
