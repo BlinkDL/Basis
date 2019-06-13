@@ -1,0 +1,6 @@
+import sys.object.*
+import sys.console
+import sys.object.string as str
+import numpy with
+       zeros as z, ones as o
+       empty
