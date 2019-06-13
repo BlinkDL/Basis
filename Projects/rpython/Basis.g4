@@ -142,6 +142,74 @@ fragment JoinLine  : '\\' Space? ( '\r'? '\n' | '\r' | '\f');
 fragment Space     : UnicodeWS+;
 fragment UnicodeWS : [\p{White_Space}];
 /*====================================================================================================================*/
+program   : statement* EOF;
+statement : (declarePackage | declareImport);
+/*====================================================================================================================*/
+declarePackage : Package;
+declareImport  : Import;
+Import         : 'import';
+Package        : 'package';
+/*====================================================================================================================*/
 // $antlr-format alignColons trailing;
+Decimal        : Integer Dot Digit;
+DecimalBad     : Integer Dot | Dot Digit+;
+Binary         : Zero B Bin+;
+Octal          : Zero O Oct+;
+Hexadecimal    : Zero X Hex+;
+Integer        : Zero+ | [1-9] Digit*;
+Exponent       : '*^';
+Base           : '/^';
+fragment Bin   : Zero | [1];
+fragment Oct   : Zero | [1-7];
+fragment Digit : Zero | [1-9];
+fragment Hex   : Zero | [1-9a-fA-F];
+fragment Zero  : [0];
+/*====================================================================================================================*/
+Symbols    : Symbol (Dot Symbol)+;
+Symbol     : NameStartCharacter NameCharacter*;
+Dot        : '.';
+Underline  : '_';
+fragment A : [aA];
+fragment B : [bB];
+fragment C : [cC];
+fragment D : [dD];
+fragment E : [eE];
+fragment F : [fF];
+fragment G : [gG];
+fragment H : [hH];
+fragment I : [iI];
+fragment J : [jJ];
+fragment K : [kK];
+fragment L : [lL];
+fragment M : [mM];
+fragment N : [nN];
+fragment O : [oO];
+fragment P : [pP];
+fragment Q : [qQ];
+fragment R : [rR];
+fragment S : [sS];
+fragment T : [tT];
+fragment U : [uU];
+fragment V : [vV];
+fragment W : [wW];
+fragment X : [xX];
+fragment Y : [yY];
+fragment Z : [zZ];
 // $antlr-format alignColons hanging;
-fragment Comment: '#' ~[\r\n\f]*;
+fragment Letter
+    : (A | B | C | D | E | F | G)
+    | (H | I | J | K | L | M | N)
+    | (O | P | Q | R | S | T)
+    | (U | V | W | X | Y | Z);
+fragment NameStartCharacter
+    : (Underline | Letter)
+    | [\p{Latin}]
+    | [\p{Han}]
+    | [\p{Hiragana}]
+    | [\p{Katakana}]
+    | [\p{Greek}];
+// $antlr-format alignColons trailing;
+fragment EmojiCharacter : [\p{Emoji}];
+fragment NameCharacter  : NameStartCharacter | Digit;
+/*====================================================================================================================*/
+fragment Comment : '#' ~[\r\n\f]*;
