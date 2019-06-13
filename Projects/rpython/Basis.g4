@@ -111,7 +111,8 @@ def atStartOfInput(self):
     return Lexer.column.fget(self) == 0 and Lexer.line.fget(self) == 1
 }
 // $antlr-format alignColons trailing;
-Newline: ({self.atStartOfInput()}? Space | ( '\r'? '\n' | '\r' | '\f') Space?) {
+SPACES : [\t ]+ -> skip;
+NEWLINE: ({self.atStartOfInput()}? SPACES | ( '\r'? '\n' | '\r' | '\f') SPACES?) {
 tempt = Lexer.text.fget(self)
 newLine = re.sub("[^\r\n\f]+", "", tempt)
 spaces = re.sub("[\r\n\f]+", "", tempt)
@@ -138,17 +139,35 @@ else:
             self.emitToken(self.createDedent())
             self.indents.pop()
 };
-fragment JoinLine  : '\\' Space? ( '\r'? '\n' | '\r' | '\f');
-fragment Space     : UnicodeWS+;
-fragment UnicodeWS : [\p{White_Space}];
+Escape   : '\\';
+JoinLine : Escape SPACES? ( '\r'? '\n' | '\r') -> skip;
+//fragment UnicodeWS : [\p{White_Space}] ;
 /*====================================================================================================================*/
-program   : statement* EOF;
-statement : (declarePackage | declareImport);
+program           : (NEWLINE | statement)* EOF;
+statement         : simpleStatement | compoundStatement;
+simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
+shortStatement    : 'short';
+compoundStatement : declarePackage | declareImport;
+suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT;
+Semicolon         : ';';
 /*====================================================================================================================*/
-declarePackage : Package;
-declareImport  : Import;
-Import         : 'import';
-Package        : 'package';
+// $antlr-format alignColons hanging;
+declarePackage: Package symbol;
+declareImport
+    : Import symbol (Dot Star)?
+    | Import symbol As alias = Symbol
+    | Import symbol With (importAlias Comma?)*
+    | Import symbol With importSuite;
+// $antlr-format alignColons trailing;
+importSuite : NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
+importAlias : symbol (As symbol)?;
+Import      : 'import';
+Package     : 'package';
+/*====================================================================================================================*/
+With  : 'with';
+As    : 'as';
+Comma : ',';
+Star  : '*';
 /*====================================================================================================================*/
 // $antlr-format alignColons trailing;
 Decimal        : Integer Dot Digit;
@@ -165,7 +184,8 @@ fragment Digit : Zero | [1-9];
 fragment Hex   : Zero | [1-9a-fA-F];
 fragment Zero  : [0];
 /*====================================================================================================================*/
-Symbols    : Symbol (Dot Symbol)+;
+symbol     : Symbol | symbols;
+symbols    : Symbol (Dot Symbol)+;
 Symbol     : NameStartCharacter NameCharacter*;
 Dot        : '.';
 Underline  : '_';
@@ -212,4 +232,4 @@ fragment NameStartCharacter
 fragment EmojiCharacter : [\p{Emoji}];
 fragment NameCharacter  : NameStartCharacter | Digit;
 /*====================================================================================================================*/
-fragment Comment : '#' ~[\r\n\f]*;
+LineComment : '#' ~[\r\n]* -> channel(HIDDEN);
