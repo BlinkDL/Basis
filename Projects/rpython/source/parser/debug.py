@@ -1,6 +1,7 @@
 DEBUG = {
     "STATEMENT": False,
     "IMPORT": True,
+    "FUNCTION": True,
 }
 
 
