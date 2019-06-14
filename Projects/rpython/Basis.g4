@@ -146,7 +146,7 @@ JoinLine : Escape SPACES? ( '\r'? '\n' | '\r') -> skip;
 program           : (NEWLINE | statement)* EOF;
 statement         : simpleStatement | compoundStatement;
 simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
-shortStatement    : 'short';
+shortStatement    : expression;
 compoundStatement : declarePackage | declareImport | ifStatement;
 suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT | '{' statement+ '}';
 Semicolon         : ';';
@@ -154,14 +154,15 @@ Semicolon         : ';';
 // $antlr-format alignColons hanging;
 declarePackage: Package symbol;
 declareImport
-    : Import symbol (Dot Star)?
-    | Import symbol As alias = Identifier
-    | Import symbol With (importAlias Comma?)*
-    | Import symbol With importSuite;
+    : Import symbol                       # ImportModule
+    | Import symbol Dot Star              # ImportModuleAll
+    | Import symbol As identifier # ImportModuleAlias
+    | Import symbol With importSuite      # ImportSymbols;
+importSuite
+    : (importAlias Comma?)*
+    | NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
+importAlias: symbol (As symbol)?;
 // $antlr-format alignColons trailing;
-importSuite : NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
-importAlias : symbol (As symbol)?;
-
 Import  : 'import';
 Package : 'package';
 /*====================================================================================================================*/
@@ -195,9 +196,9 @@ typeExpression    : identifier | '[' identifier ']' identifier;
 To    : '=>';
 Colon : ':';
 /*====================================================================================================================*/
-expression : 'expression';
+expression : data;
 /*====================================================================================================================*/
-data: string;
+data : string | number;
 
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
@@ -221,14 +222,20 @@ fragment CharLevel1 : Escape ~[ ] | ~[\\];
 fragment CharLevel2 : Escape ~[ ] | ~["\\];
 /*====================================================================================================================*/
 // $antlr-format alignColons trailing;
-Decimal        : Integer Dot Digit;
-DecimalBad     : Integer Dot | Dot Digit+;
-Binary         : Zero B Bin+;
-Octal          : Zero O Oct+;
-Hexadecimal    : Zero X Hex+;
-Integer        : Zero+ | [1-9] Digit*;
-Exponent       : '*^';
-Base           : '/^';
+number  : decimal | byte | integer;
+decimal : Decimal | DecimalBad;
+byte    : Hexadecimal | Octal | Binary;
+integer : Integer;
+
+Decimal     : Integer Dot Digit;
+DecimalBad  : Integer Dot | Dot Digit+;
+Binary      : Zero B Bin+;
+Octal       : Zero O Oct+;
+Hexadecimal : Zero X Hex+;
+Integer     : Zero+ | [1-9] Digit*;
+Exponent    : '*^';
+Base        : '/^';
+
 fragment Bin   : Zero | [1];
 fragment Oct   : Zero | [1-7];
 fragment Digit : Zero | [1-9];
