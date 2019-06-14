@@ -170,12 +170,21 @@ class BasisListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by BasisParser#functionLHS.
-    def enterFunctionLHS(self, ctx:BasisParser.FunctionLHSContext):
+    # Enter a parse tree produced by BasisParser#inType.
+    def enterInType(self, ctx:BasisParser.InTypeContext):
         pass
 
-    # Exit a parse tree produced by BasisParser#functionLHS.
-    def exitFunctionLHS(self, ctx:BasisParser.FunctionLHSContext):
+    # Exit a parse tree produced by BasisParser#inType.
+    def exitInType(self, ctx:BasisParser.InTypeContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#outType.
+    def enterOutType(self, ctx:BasisParser.OutTypeContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#outType.
+    def exitOutType(self, ctx:BasisParser.OutTypeContext):
         pass
 
 
@@ -194,6 +203,15 @@ class BasisListener(ParseTreeListener):
 
     # Exit a parse tree produced by BasisParser#typeExpression.
     def exitTypeExpression(self, ctx:BasisParser.TypeExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#controlFlow.
+    def enterControlFlow(self, ctx:BasisParser.ControlFlowContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#controlFlow.
+    def exitControlFlow(self, ctx:BasisParser.ControlFlowContext):
         pass
 
 
@@ -320,6 +338,24 @@ class BasisListener(ParseTreeListener):
 
     # Exit a parse tree produced by BasisParser#identifier.
     def exitIdentifier(self, ctx:BasisParser.IdentifierContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#level2.
+    def enterLevel2(self, ctx:BasisParser.Level2Context):
+        pass
+
+    # Exit a parse tree produced by BasisParser#level2.
+    def exitLevel2(self, ctx:BasisParser.Level2Context):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#level1.
+    def enterLevel1(self, ctx:BasisParser.Level1Context):
+        pass
+
+    # Exit a parse tree produced by BasisParser#level1.
+    def exitLevel1(self, ctx:BasisParser.Level1Context):
         pass
 
 

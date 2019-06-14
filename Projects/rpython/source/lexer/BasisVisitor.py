@@ -99,8 +99,13 @@ class BasisVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BasisParser#functionLHS.
-    def visitFunctionLHS(self, ctx:BasisParser.FunctionLHSContext):
+    # Visit a parse tree produced by BasisParser#inType.
+    def visitInType(self, ctx:BasisParser.InTypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BasisParser#outType.
+    def visitOutType(self, ctx:BasisParser.OutTypeContext):
         return self.visitChildren(ctx)
 
 
@@ -111,6 +116,11 @@ class BasisVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BasisParser#typeExpression.
     def visitTypeExpression(self, ctx:BasisParser.TypeExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BasisParser#controlFlow.
+    def visitControlFlow(self, ctx:BasisParser.ControlFlowContext):
         return self.visitChildren(ctx)
 
 
@@ -181,6 +191,16 @@ class BasisVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BasisParser#identifier.
     def visitIdentifier(self, ctx:BasisParser.IdentifierContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BasisParser#level2.
+    def visitLevel2(self, ctx:BasisParser.Level2Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BasisParser#level1.
+    def visitLevel1(self, ctx:BasisParser.Level1Context):
         return self.visitChildren(ctx)
 
 

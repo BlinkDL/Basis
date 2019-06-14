@@ -5,6 +5,7 @@ from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
 from .debug import debug_print, DEBUG
+from .taks import Tasks
 
 
 class JSON_IR(BasisVisitor):
@@ -55,13 +56,43 @@ class JSON_IR(BasisVisitor):
 
     # region Function
     def visitDeclareFunction(self, ctx: BasisParser.DeclareFunctionContext):
-        t = ctx.typeExpression()
-        f = ctx.functionLHS()
+        f = ctx.identifier().getText()
+        if DEBUG["FUNCTION"]:
+            debug_print("Function", f)
+        i = ctx.inType()
+        if ctx.outType() is None:
+            o = "auto"
+        else:
+            o = ctx.outType()
         b = ctx.suite()
-        debug_print("Function", f.getText())
-        debug_print("Type", t.getText())
-        debug_print("Body", b.getText())
+        if DEBUG["FUNCTION"]:
+            debug_print("Type" + " => " + o, i.getText())
+            debug_print("Body", b.getText())
+        return {
+            "task": Tasks.FunctionDeclaration,
+            "name": f,
+            "in": i,
+            "out": o,
+            "body": b,
+        }
+
+    def visitInType(self, ctx: BasisParser.InTypeContext):
         return self.visitChildren(ctx)
+
+    def visitOutType(self, ctx: BasisParser.OutTypeContext):
+        return self.visitChildren(ctx)
+
+    def visitFunctionParameter(self, ctx: BasisParser.FunctionParameterContext):
+        if ctx.typeExpression() is None:
+            t = "auto"
+        else:
+            t = self.visit(ctx.typeExpression())
+        return {
+            "task": Tasks.FunctionParameter,
+            "type": t,
+            "name": ctx.identifier().getText(),
+            "modifier": Tasks.FunctionParameterNormal
+        }
 
     # endregion
 
@@ -71,7 +102,9 @@ class JSON_IR(BasisVisitor):
 
     def visitIdentifier(self, ctx: BasisParser.IdentifierContext):
         return ctx.getText()
-    # endregion
+
+
+# endregion
 
 
 class ParserTests(TestCase):

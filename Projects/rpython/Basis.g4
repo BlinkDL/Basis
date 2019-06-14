@@ -148,9 +148,9 @@ statement         : simpleStatement | compoundStatement;
 simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
 shortStatement    : expression;
 compoundStatement : declarePackage | declareImport | declareFunction | ifStatement;
-suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT ;
+suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT;
 //suite  : '{' statement+ '}'
-Semicolon         : ';';
+Semicolon : ';';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
 declarePackage: Package symbol;
@@ -185,21 +185,37 @@ For : 'for';
 In  : 'in';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
-declareFunction: typeExpression functionLHS suite;
-functionLHS
-    : identifier '[' typeExpression ']'
-    | identifier '(' ')'
-    | identifier '(' functionParameter (Comma functionParameter)* Comma? ')';
+declareFunction
+    : identifier inType outType? suite
+    | identifier outType? inType suite
+    | inType outType? identifier suite
+    | inType identifier outType? suite
+    | outType? inType identifier suite
+    | outType? identifier inType Colon suite;
+inType
+    : '[' identifier ']'
+    | '(' functionParameter ')'
+    | '(' functionParameter (Comma functionParameter)* Comma? ')';
+outType: typeExpression;
 // $antlr-format alignColons trailing;
-functionParameter : typeExpression identifier;
-typeExpression    : identifier | '[' identifier ']' identifier;
+functionParameter : typeExpression? identifier;
+typeExpression    : identifier;
 
 To    : '=>';
 Colon : ':';
 /*====================================================================================================================*/
-expression : data| identifier Colon data;
+controlFlow: Return;
+Return: 'return';
 /*====================================================================================================================*/
-data : string | number;
+// $antlr-format alignColons hanging;
+expression
+    : expression level1 expression
+    | expression level2 expression
+    | controlFlow expression
+    | data;
+
+/*====================================================================================================================*/
+data: string | number|symbol;
 
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
@@ -293,3 +309,12 @@ fragment EmojiCharacter : [\p{Emoji}];
 fragment NameCharacter  : NameStartCharacter | Digit;
 /*====================================================================================================================*/
 LineComment : '#' ~[\r\n]* -> channel(HIDDEN);
+
+/*====================================================================================================================*/
+
+level2 : Modulo;
+level1 : Equal;
+
+Modulo : '%';
+Equal  : '==';
+
