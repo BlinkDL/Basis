@@ -12,12 +12,9 @@ import 相关的语义如下:
 ### 示例代码
 
 ```python
-import sys.object.*
 import sys.console
 import sys.object.string as str
 ```
-
-* 导入所有符号
 
 as 表示 alias
 
@@ -41,11 +38,14 @@ interface ImportModule {
 #### 示例代码
 
 ```python
+import sys.object.*
 import mxnet with cpu, gpu
 import numpy with
        zeros as z, ones as o
        empty
 ```
+
+* 导入所有符号
 
 with 导入指定的符号
 
@@ -59,10 +59,11 @@ with 导入指定的符号
 interface ImportSymbol {
     type: number,
     from: string,
-    symbol: string[] | [string, string][],
+    symbol: bool | string[] | [string, string][],
 }
 ```
 
 - `from`: 导入的模块名
+- `symbol: bool`: 是否导入该子模块中所有可见符号
 - `symbol: string`: 导入的符号名
 - `symbol: [string, string]`: 前一个表示原名, 后一个表示别称
