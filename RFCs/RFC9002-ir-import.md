@@ -1,0 +1,60 @@
+RFC9002[IR]: Import Modules and Symbols
+=======================================
+
+import 是顶级关键词, 不能作为变量名.
+
+import 相关的语义如下:
+
+### ImportModule
+
+导入模块.
+
+### 示例代码
+
+```python
+import sys.object.*
+import sys.console
+import sys.object.string as str
+```
+
+* 导入所有符号
+
+as 表示 alias
+
+### 中间表示
+
+```ts
+interface ImportModule {
+    type: number,
+    from: string,
+    alias: string
+}
+```
+
+### ImportSymbol
+
+导入模块中的某些符号.
+
+#### 示例代码
+
+```basis
+import numpy with
+       zeros as z, ones as o
+       empty
+```
+
+with 导入指定的符号
+
+如果很多, 可以换行, 但是注意不能空行
+
+换行之后需要有缩进
+
+#### 中间表示
+
+```ts
+interface ImportSymbol {
+    type: number,
+    from: string,
+    symbol: string[] | [string, string][]
+}
+```

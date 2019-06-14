@@ -1,15 +1,6 @@
-enum Statement {
-    ImportModule,
-    ImportSymbol,
-}
 
-interface ImportModule {
-    type: number,
-    from: string,
-    alias: string
-}
 
-const target: ImportModule[] = [
+const target = [
     {
         type: Statement.ImportModule,
         from: "sys.object.ir",
