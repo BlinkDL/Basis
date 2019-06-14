@@ -147,27 +147,37 @@ program           : (NEWLINE | statement)* EOF;
 statement         : simpleStatement | compoundStatement;
 simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
 shortStatement    : 'short';
-compoundStatement : declarePackage | declareImport;
-suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT;
+compoundStatement : declarePackage | declareImport | ifStatement;
+suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT | '{' statement+ '}';
 Semicolon         : ';';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
 declarePackage: Package symbol;
 declareImport
     : Import symbol (Dot Star)?
-    | Import symbol As alias = Symbol
+    | Import symbol As alias = Identifier
     | Import symbol With (importAlias Comma?)*
     | Import symbol With importSuite;
 // $antlr-format alignColons trailing;
 importSuite : NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
 importAlias : symbol (As symbol)?;
-Import      : 'import';
-Package     : 'package';
+
+Import  : 'import';
+Package : 'package';
 /*====================================================================================================================*/
 With  : 'with';
 As    : 'as';
 Comma : ',';
 Star  : '*';
+/*====================================================================================================================*/
+ifStatement   : If cond = expression suite elseif* elseStatement?;
+elseif        : If Else cond = expression suite;
+elseStatement : Else suite;
+
+If   : 'if';
+Else : 'else';
+/*====================================================================================================================*/
+expression : 'expression';
 /*====================================================================================================================*/
 // $antlr-format alignColons trailing;
 Decimal        : Integer Dot Digit;
@@ -184,9 +194,10 @@ fragment Digit : Zero | [1-9];
 fragment Hex   : Zero | [1-9a-fA-F];
 fragment Zero  : [0];
 /*====================================================================================================================*/
-symbol     : Symbol | symbols;
-symbols    : Symbol (Dot Symbol)+;
-Symbol     : NameStartCharacter NameCharacter*;
+symbol     : Identifier | symbols;
+symbols    : Identifier (Dot Identifier)+;
+identifier : Identifier;
+Identifier : NameStartCharacter NameCharacter*;
 Dot        : '.';
 Underline  : '_';
 fragment A : [aA];

@@ -55,7 +55,7 @@ class ParserTests(TestCase):
 
         # print out the token parsing
         stream.fill()
-        print("TOKENS")
+        print("TOKENS:")
         for token in stream.tokens:
             if token.text != '<EOF>':
                 type_name = BasisParser.symbolicNames[token.type]
