@@ -146,47 +146,106 @@ JoinLine : Escape SPACES? ( '\r'? '\n' | '\r') -> skip;
 program           : (NEWLINE | statement)* EOF;
 statement         : simpleStatement | compoundStatement;
 simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
-shortStatement    : 'short';
-compoundStatement : declarePackage | declareImport;
-suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT;
+shortStatement    : expression;
+compoundStatement : declarePackage | declareImport | ifStatement;
+suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT | '{' statement+ '}';
 Semicolon         : ';';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
 declarePackage: Package symbol;
 declareImport
-    : Import symbol (Dot Star)?
-    | Import symbol As alias = Symbol
-    | Import symbol With (importAlias Comma?)*
-    | Import symbol With importSuite;
+    : Import symbol                       # ImportModule
+    | Import symbol Dot Star              # ImportModuleAll
+    | Import symbol As identifier # ImportModuleAlias
+    | Import symbol With importSuite      # ImportSymbols;
+importSuite
+    : (importAlias Comma?)*
+    | NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
+importAlias: symbol (As symbol)?;
 // $antlr-format alignColons trailing;
-importSuite : NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
-importAlias : symbol (As symbol)?;
-Import      : 'import';
-Package     : 'package';
+Import  : 'import';
+Package : 'package';
 /*====================================================================================================================*/
 With  : 'with';
 As    : 'as';
 Comma : ',';
 Star  : '*';
 /*====================================================================================================================*/
+ifStatement   : If cond = expression suite elseif* elseStatement?;
+elseif        : If Else cond = expression suite;
+elseStatement : Else suite;
+
+If   : 'if';
+Else : 'else';
+/*====================================================================================================================*/
+forInStatement : For expression In expression suite elseStatement?;
+
+For : 'for';
+In  : 'in';
+/*====================================================================================================================*/
+// $antlr-format alignColons hanging;
+declareFunction: typeExpression functionLHS Colon suite;
+functionLHS
+    : identifier '[' typeExpression ']'
+    | identifier '(' ')'
+    | identifier '(' functionParameter (Comma functionParameter)* Comma? ')';
 // $antlr-format alignColons trailing;
-Decimal        : Integer Dot Digit;
-DecimalBad     : Integer Dot | Dot Digit+;
-Binary         : Zero B Bin+;
-Octal          : Zero O Oct+;
-Hexadecimal    : Zero X Hex+;
-Integer        : Zero+ | [1-9] Digit*;
-Exponent       : '*^';
-Base           : '/^';
+functionParameter : typeExpression identifier;
+typeExpression    : identifier | '[' identifier ']' identifier;
+
+To    : '=>';
+Colon : ':';
+/*====================================================================================================================*/
+expression : data;
+/*====================================================================================================================*/
+data : string | number;
+
+/*====================================================================================================================*/
+// $antlr-format alignColons hanging;
+string
+    : StringEmpty         # StringEmpty
+    | StringEscapeBlock   # StringEscapeBlock
+    | StringEscapeSingle  # StringEscapeSingle
+    | StringLiteralBlock  # StringLiteralBlock
+    | StringLiteralSingle # StringLiteralSingle;
+// $antlr-format alignColons trailing;
+StringEscapeBlock   : S6 CharLevel1+? S6;
+StringEscapeSingle  : S2 CharLevel2+? S2;
+StringLiteralBlock  : S3 .+? S3;
+StringLiteralSingle : S1 ~[\uFF02]+? S1;
+StringEmpty         : S6 S6 | S3 S3 | S2 S2 | S1 S1;
+fragment S6         : '"""';
+fragment S3         : '\uFF02\uFF02\uFF02';
+fragment S2         : '"';
+fragment S1         : '\uFF02'; //U+FF02 ＂
+fragment CharLevel1 : Escape ~[ ] | ~[\\];
+fragment CharLevel2 : Escape ~[ ] | ~["\\];
+/*====================================================================================================================*/
+// $antlr-format alignColons trailing;
+number  : decimal | byte | integer;
+decimal : Decimal | DecimalBad;
+byte    : Hexadecimal | Octal | Binary;
+integer : Integer;
+
+Decimal     : Integer Dot Digit;
+DecimalBad  : Integer Dot | Dot Digit+;
+Binary      : Zero B Bin+;
+Octal       : Zero O Oct+;
+Hexadecimal : Zero X Hex+;
+Integer     : Zero+ | [1-9] Digit*;
+Exponent    : '*^';
+Base        : '/^';
+
 fragment Bin   : Zero | [1];
 fragment Oct   : Zero | [1-7];
 fragment Digit : Zero | [1-9];
 fragment Hex   : Zero | [1-9a-fA-F];
 fragment Zero  : [0];
 /*====================================================================================================================*/
-symbol     : Symbol | symbols;
-symbols    : Symbol (Dot Symbol)+;
-Symbol     : NameStartCharacter NameCharacter*;
+symbol     : Identifier | symbols;
+symbols    : Identifier (Dot Identifier)+;
+identifier : Identifier;
+Identifier : NameStartCharacter NameCharacter*;
 Dot        : '.';
 Underline  : '_';
 fragment A : [aA];

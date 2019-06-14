@@ -71,12 +71,39 @@ class BasisListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by BasisParser#declareImport.
-    def enterDeclareImport(self, ctx:BasisParser.DeclareImportContext):
+    # Enter a parse tree produced by BasisParser#ImportModule.
+    def enterImportModule(self, ctx:BasisParser.ImportModuleContext):
         pass
 
-    # Exit a parse tree produced by BasisParser#declareImport.
-    def exitDeclareImport(self, ctx:BasisParser.DeclareImportContext):
+    # Exit a parse tree produced by BasisParser#ImportModule.
+    def exitImportModule(self, ctx:BasisParser.ImportModuleContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#ImportModuleAll.
+    def enterImportModuleAll(self, ctx:BasisParser.ImportModuleAllContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#ImportModuleAll.
+    def exitImportModuleAll(self, ctx:BasisParser.ImportModuleAllContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#ImportModuleAlias.
+    def enterImportModuleAlias(self, ctx:BasisParser.ImportModuleAliasContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#ImportModuleAlias.
+    def exitImportModuleAlias(self, ctx:BasisParser.ImportModuleAliasContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#ImportSymbols.
+    def enterImportSymbols(self, ctx:BasisParser.ImportSymbolsContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#ImportSymbols.
+    def exitImportSymbols(self, ctx:BasisParser.ImportSymbolsContext):
         pass
 
 
@@ -98,6 +125,177 @@ class BasisListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by BasisParser#ifStatement.
+    def enterIfStatement(self, ctx:BasisParser.IfStatementContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#ifStatement.
+    def exitIfStatement(self, ctx:BasisParser.IfStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#elseif.
+    def enterElseif(self, ctx:BasisParser.ElseifContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#elseif.
+    def exitElseif(self, ctx:BasisParser.ElseifContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#elseStatement.
+    def enterElseStatement(self, ctx:BasisParser.ElseStatementContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#elseStatement.
+    def exitElseStatement(self, ctx:BasisParser.ElseStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#forInStatement.
+    def enterForInStatement(self, ctx:BasisParser.ForInStatementContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#forInStatement.
+    def exitForInStatement(self, ctx:BasisParser.ForInStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#declareFunction.
+    def enterDeclareFunction(self, ctx:BasisParser.DeclareFunctionContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#declareFunction.
+    def exitDeclareFunction(self, ctx:BasisParser.DeclareFunctionContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#functionLHS.
+    def enterFunctionLHS(self, ctx:BasisParser.FunctionLHSContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#functionLHS.
+    def exitFunctionLHS(self, ctx:BasisParser.FunctionLHSContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#functionParameter.
+    def enterFunctionParameter(self, ctx:BasisParser.FunctionParameterContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#functionParameter.
+    def exitFunctionParameter(self, ctx:BasisParser.FunctionParameterContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#typeExpression.
+    def enterTypeExpression(self, ctx:BasisParser.TypeExpressionContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#typeExpression.
+    def exitTypeExpression(self, ctx:BasisParser.TypeExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#expression.
+    def enterExpression(self, ctx:BasisParser.ExpressionContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#expression.
+    def exitExpression(self, ctx:BasisParser.ExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#data.
+    def enterData(self, ctx:BasisParser.DataContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#data.
+    def exitData(self, ctx:BasisParser.DataContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#StringEmpty.
+    def enterStringEmpty(self, ctx:BasisParser.StringEmptyContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#StringEmpty.
+    def exitStringEmpty(self, ctx:BasisParser.StringEmptyContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#StringEscapeBlock.
+    def enterStringEscapeBlock(self, ctx:BasisParser.StringEscapeBlockContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#StringEscapeBlock.
+    def exitStringEscapeBlock(self, ctx:BasisParser.StringEscapeBlockContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#StringEscapeSingle.
+    def enterStringEscapeSingle(self, ctx:BasisParser.StringEscapeSingleContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#StringEscapeSingle.
+    def exitStringEscapeSingle(self, ctx:BasisParser.StringEscapeSingleContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#StringLiteralBlock.
+    def enterStringLiteralBlock(self, ctx:BasisParser.StringLiteralBlockContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#StringLiteralBlock.
+    def exitStringLiteralBlock(self, ctx:BasisParser.StringLiteralBlockContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#StringLiteralSingle.
+    def enterStringLiteralSingle(self, ctx:BasisParser.StringLiteralSingleContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#StringLiteralSingle.
+    def exitStringLiteralSingle(self, ctx:BasisParser.StringLiteralSingleContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#number.
+    def enterNumber(self, ctx:BasisParser.NumberContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#number.
+    def exitNumber(self, ctx:BasisParser.NumberContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#decimal.
+    def enterDecimal(self, ctx:BasisParser.DecimalContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#decimal.
+    def exitDecimal(self, ctx:BasisParser.DecimalContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#byte.
+    def enterByte(self, ctx:BasisParser.ByteContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#byte.
+    def exitByte(self, ctx:BasisParser.ByteContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#integer.
+    def enterInteger(self, ctx:BasisParser.IntegerContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#integer.
+    def exitInteger(self, ctx:BasisParser.IntegerContext):
+        pass
+
+
     # Enter a parse tree produced by BasisParser#symbol.
     def enterSymbol(self, ctx:BasisParser.SymbolContext):
         pass
@@ -113,6 +311,15 @@ class BasisListener(ParseTreeListener):
 
     # Exit a parse tree produced by BasisParser#symbols.
     def exitSymbols(self, ctx:BasisParser.SymbolsContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#identifier.
+    def enterIdentifier(self, ctx:BasisParser.IdentifierContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#identifier.
+    def exitIdentifier(self, ctx:BasisParser.IdentifierContext):
         pass
 
 

@@ -11,6 +11,18 @@ from ..lexer.BasisVisitor import BasisVisitor
 from antlr4.tree.Trees import Trees
 
 
+def aster(path):
+    dir_path = os.path.dirname(os.path.abspath(path))
+    name = os.path.splitext(os.path.basename(path))[0]
+    lexer = BasisLexer(FileStream(path))
+    stream = CommonTokenStream(lexer)
+    parser = BasisParser(stream)
+    ast = parser.program()
+    with open(dir_path + "\\" + name + ".rkt", 'w') as f:
+        f.write(Trees.toStringTree(ast, None, parser))
+        f.close()
+
+
 class ErrorListener(ErrorListener):
     def __init__(self, output):
         self.output = output
@@ -34,18 +46,6 @@ class ErrorListener(ErrorListener):
         return self._symbol
 
 
-def aster(path):
-    dir_path = os.path.dirname(os.path.abspath(path))
-    name = os.path.splitext(os.path.basename(path))[0]
-    lexer = BasisLexer(FileStream(path))
-    stream = CommonTokenStream(lexer)
-    parser = BasisParser(stream)
-    ast = parser.program()
-    with open(dir_path + "\\" + name + ".rkt", 'w') as f:
-        f.write(Trees.toStringTree(ast, None, parser))
-        f.close()
-
-
 class ParserTests(TestCase):
 
     def setup(self, path):
@@ -55,7 +55,7 @@ class ParserTests(TestCase):
 
         # print out the token parsing
         stream.fill()
-        print("TOKENS")
+        print("TOKENS:")
         for token in stream.tokens:
             if token.text != '<EOF>':
                 type_name = BasisParser.symbolicNames[token.type]
