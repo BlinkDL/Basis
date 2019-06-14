@@ -1,2 +1,38 @@
-string myDict[bool]
-	true: 'good'
+# some basic tests
+
+bool isEven101(int x) :
+	return x % 2 == 0
+
+isEven102(int x) : bool
+	return x % 2 == 0
+
+isEven103(int x) :
+	return x % 2 == 0
+
+isEven104(x) :
+	return x % 2 == 0
+
+isEven201 : (x) => {x % 2 == 0}
+isEven202 : (int x) => bool {x % 2 == 0}
+isEven203 : (int x) => bool
+	return x % 2 == 0
+
+isEven301 : (x) {x % 2 == 0}
+isEven302 : (int x) bool {x % 2 == 0}
+isEven303 : (int x) bool
+	return x % 2 == 0
+
+isEven401 : (x) {x % 2 == 0}
+isEven402 : bool (int x) {x % 2 == 0}
+isEven403 : bool (int x) 
+	return x % 2 == 0
+
+(x) isEven501 : {x % 2 == 0}
+bool (int x) isEven502 : {x % 2 == 0}
+bool (int x) isEven503 : 
+	return x % 2 == 0
+
+(x) isEven601 : {x % 2 == 0}
+(int x) bool isEven602 : {x % 2 == 0}
+(int x) bool isEven603 : 
+	return x % 2 == 0
