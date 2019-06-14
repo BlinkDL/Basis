@@ -36,3 +36,17 @@ bool (int x) isEven503 :
 (int x) bool isEven602 : {x % 2 == 0}
 (int x) bool isEven603 : 
 	return x % 2 == 0
+
+string dummy101 :
+	return 'hello'
+
+dummy102 : string
+	return 'hello'
+
+dummy104 :
+	return 'hello'
+
+dummy201 : {'hello'}
+dummy202 : string {'hello'}
+
+string dummy502 : {'hello'}
