@@ -177,6 +177,24 @@ elseStatement : Else suite;
 If   : 'if';
 Else : 'else';
 /*====================================================================================================================*/
+forInStatement : For expression In expression suite elseStatement?;
+
+For : 'for';
+In  : 'in';
+/*====================================================================================================================*/
+// $antlr-format alignColons hanging;
+declareFunction: typeExpression functionLHS Colon suite;
+functionLHS
+    : identifier '[' typeExpression ']'
+    | identifier '(' ')'
+    | identifier '(' functionParameter (Comma functionParameter)* Comma? ')';
+// $antlr-format alignColons trailing;
+functionParameter : typeExpression identifier;
+typeExpression    : identifier | '[' identifier ']' identifier;
+
+To    : '=>';
+Colon : ':';
+/*====================================================================================================================*/
 expression : 'expression';
 /*====================================================================================================================*/
 // $antlr-format alignColons trailing;
