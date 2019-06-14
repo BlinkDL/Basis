@@ -27,9 +27,12 @@ as 表示 alias
 interface ImportModule {
     type: number,
     from: string,
-    alias: string
+    alias: string?,
 }
 ```
+
+- `from`: 导入的模块名
+- `alias`: 表示别称
 
 ### ImportSymbol
 
@@ -37,7 +40,8 @@ interface ImportModule {
 
 #### 示例代码
 
-```basis
+```python
+import mxnet with cpu, gpu
 import numpy with
        zeros as z, ones as o
        empty
@@ -45,7 +49,7 @@ import numpy with
 
 with 导入指定的符号
 
-如果很多, 可以换行, 但是注意不能空行
+如果很多, 可以换行, 没有规定每行的个数, 但是注意不能空行
 
 换行之后需要有缩进
 
@@ -55,6 +59,10 @@ with 导入指定的符号
 interface ImportSymbol {
     type: number,
     from: string,
-    symbol: string[] | [string, string][]
+    symbol: string[] | [string, string][],
 }
 ```
+
+- `from`: 导入的模块名
+- `symbol: string`: 导入的符号名
+- `symbol: [string, string]`: 前一个表示原名, 后一个表示别称
