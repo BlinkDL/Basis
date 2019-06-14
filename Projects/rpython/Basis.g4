@@ -197,6 +197,29 @@ Colon : ':';
 /*====================================================================================================================*/
 expression : 'expression';
 /*====================================================================================================================*/
+data: string;
+
+/*====================================================================================================================*/
+// $antlr-format alignColons hanging;
+string
+    : StringEmpty         # StringEmpty
+    | StringEscapeBlock   # StringEscapeBlock
+    | StringEscapeSingle  # StringEscapeSingle
+    | StringLiteralBlock  # StringLiteralBlock
+    | StringLiteralSingle # StringLiteralSingle;
+// $antlr-format alignColons trailing;
+StringEscapeBlock   : S6 CharLevel1+? S6;
+StringEscapeSingle  : S2 CharLevel2+? S2;
+StringLiteralBlock  : S3 .+? S3;
+StringLiteralSingle : S1 ~[\uFF02]+? S1;
+StringEmpty         : S6 S6 | S3 S3 | S2 S2 | S1 S1;
+fragment S6         : '"""';
+fragment S3         : '\uFF02\uFF02\uFF02';
+fragment S2         : '"';
+fragment S1         : '\uFF02'; //U+FF02 ＂
+fragment CharLevel1 : Escape ~[ ] | ~[\\];
+fragment CharLevel2 : Escape ~[ ] | ~["\\];
+/*====================================================================================================================*/
 // $antlr-format alignColons trailing;
 Decimal        : Integer Dot Digit;
 DecimalBad     : Integer Dot | Dot Digit+;
