@@ -147,17 +147,18 @@ program           : (NEWLINE | statement)* EOF;
 statement         : simpleStatement | compoundStatement;
 simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
 shortStatement    : expression;
-compoundStatement : declarePackage | declareImport | ifStatement;
-suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT | '{' statement+ '}';
+compoundStatement : declarePackage | declareImport | declareFunction | ifStatement;
+suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT ;
+//suite  : '{' statement+ '}'
 Semicolon         : ';';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
 declarePackage: Package symbol;
 declareImport
-    : Import symbol                       # ImportModule
-    | Import symbol Dot Star              # ImportModuleAll
-    | Import symbol As identifier # ImportModuleAlias
-    | Import symbol With importSuite      # ImportSymbols;
+    : Import symbol                  # ImportModule
+    | Import symbol Dot Star         # ImportModuleAll
+    | Import symbol As identifier    # ImportModuleAlias
+    | Import symbol With importSuite # ImportSymbols;
 importSuite
     : (importAlias Comma?)*
     | NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
@@ -184,7 +185,7 @@ For : 'for';
 In  : 'in';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
-declareFunction: typeExpression functionLHS Colon suite;
+declareFunction: typeExpression functionLHS suite;
 functionLHS
     : identifier '[' typeExpression ']'
     | identifier '(' ')'
@@ -196,7 +197,7 @@ typeExpression    : identifier | '[' identifier ']' identifier;
 To    : '=>';
 Colon : ':';
 /*====================================================================================================================*/
-expression : data;
+expression : data| identifier Colon data;
 /*====================================================================================================================*/
 data : string | number;
 
@@ -212,14 +213,14 @@ string
 StringEscapeBlock   : S6 CharLevel1+? S6;
 StringEscapeSingle  : S2 CharLevel2+? S2;
 StringLiteralBlock  : S3 .+? S3;
-StringLiteralSingle : S1 ~[\uFF02]+? S1;
+StringLiteralSingle : S1 ~[']+? S1;
 StringEmpty         : S6 S6 | S3 S3 | S2 S2 | S1 S1;
 fragment S6         : '"""';
-fragment S3         : '\uFF02\uFF02\uFF02';
+fragment S3         : '\'\'\'';
 fragment S2         : '"';
-fragment S1         : '\uFF02'; //U+FF02 ＂
+fragment S1         : '\'';
 fragment CharLevel1 : Escape ~[ ] | ~[\\];
-fragment CharLevel2 : Escape ~[ ] | ~["\\];
+fragment CharLevel2 : Escape ~[ ] | ~['\\];
 /*====================================================================================================================*/
 // $antlr-format alignColons trailing;
 number  : decimal | byte | integer;

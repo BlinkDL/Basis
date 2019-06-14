@@ -73,7 +73,7 @@ class ParserTests(TestCase):
         return parser
 
     def test_import(self):
-        path = "../../examples/import.ba"
+        path = "../../examples/import.basis"
         parser = self.setup(path)
         tree = parser.program()
         listener = BasisListener()

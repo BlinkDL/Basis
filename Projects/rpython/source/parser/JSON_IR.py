@@ -4,19 +4,7 @@ from ..lexer.BasisParser import BasisParser
 from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
-
-DEBUG = {
-    "STATEMENT": False,
-    "IMPORT": False,
-}
-
-
-def debug_print(head, string=None):
-    if string is None:
-        print(f"{head}")
-    else:
-        print("\033[36m" + head + ":\033[0m")
-        print(f"{string}")
+from .debug import debug_print, DEBUG
 
 
 class JSON_IR(BasisVisitor):
@@ -65,6 +53,18 @@ class JSON_IR(BasisVisitor):
 
     # endregion
 
+    # region Function
+    def visitDeclareFunction(self, ctx: BasisParser.DeclareFunctionContext):
+        t = ctx.typeExpression()
+        f = ctx.functionLHS()
+        b = ctx.suite()
+        debug_print("Function", f.getText())
+        debug_print("Type", t.getText())
+        debug_print("Body", b.getText())
+        return self.visitChildren(ctx)
+
+    # endregion
+
     # region Atom
     def visitSymbol(self, ctx: BasisParser.SymbolContext):
         return ctx.getText()
@@ -84,4 +84,4 @@ class ParserTests(TestCase):
         visitor.visitProgram(parser.program())
 
     def test_ast_print(self):
-        self.aster("../../examples/import.ba")
+        self.aster("../../examples/function.basis")
