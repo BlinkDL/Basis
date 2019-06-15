@@ -1,5 +1,6 @@
 # Basis
-The Basis Programming Language
+
+[![the-basis-programming-language](https://raw.githubusercontent.com/BlinkDL/Basis/master/docs/basislang.png)](http://basislang.com)
 
 http://basislang.com
 
