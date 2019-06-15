@@ -20,8 +20,8 @@ def process(token):
     token = [(a if a!='F' else f) + (' ' * random.randint(0, 2)) for a in token]
     return token
 
-IN = ['', 'int x', 'x']
-OUT = ['', 'bool']
+IN = ['int x', 'x']
+OUT = ['bool']
 V = 'x == 6'
 
 for i in IN:
@@ -43,5 +43,8 @@ for o in OUT:
 for i in IN:
     code.write('# @def f: i\n')
     write( ['F', ':', '(', i, ')', '{', V, '}'] )
+
+code.write('# @def f:\n')
+write( ['F', ':', '{', V, '}'] )
 
 code.close()
