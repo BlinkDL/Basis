@@ -1,6 +1,6 @@
 # The Basis Programming Language
 
-Basis is a flexible strongly-typed language with ideas from C++ / Python / JS / C# / Go / Swift / Rust / Mathematica.
+Basis is an open source programming language with ideas from C++ / Python / JS / C# / Go / Swift / Rust / Mathematica.
 
 [![the-basis-programming-language](https://raw.githubusercontent.com/BlinkDL/Basis/master/docs/basislang.png)](http://basislang.com)
 
