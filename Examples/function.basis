@@ -12,31 +12,37 @@ isEven103(int x) :
 isEven104(x) :
 	return x % 2 == 0
 
+# @def f: i => o
 isEven201 : (x) => {x % 2 == 0}
 isEven202 : (int x) => bool {x % 2 == 0}
 isEven203 : (int x) => bool
 	return x % 2 == 0
 
+# @def f: i o
 isEven301 : (x) {x % 2 == 0}
 isEven302 : (int x) bool {x % 2 == 0}
 isEven303 : (int x) bool
 	return x % 2 == 0
 
+# @def f: o i
 isEven401 : (x) {x % 2 == 0}
 isEven402 : bool (int x) {x % 2 == 0}
 isEven403 : bool (int x) 
 	return x % 2 == 0
 
+# @def o i f :
 (x) isEven501 : {x % 2 == 0}
 bool (int x) isEven502 : {x % 2 == 0}
 bool (int x) isEven503 : 
 	return x % 2 == 0
 
+# @def i o f :
 (x) isEven601 : {x % 2 == 0}
 (int x) bool isEven602 : {x % 2 == 0}
 (int x) bool isEven603 : 
 	return x % 2 == 0
 
+# @var o v :
 string dummy101 :
 	return 'hello'
 
@@ -46,6 +52,7 @@ dummy102 : string
 dummy104 :
 	return 'hello'
 
+# @var v : o
 dummy201 : {'hello'}
 dummy202 : string {'hello'}
 
