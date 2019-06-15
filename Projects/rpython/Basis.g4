@@ -112,6 +112,7 @@ def atStartOfInput(self):
 }
 // $antlr-format alignColons trailing;
 SPACES : [\t ]+ -> skip;
+JoinLine : Escape SPACES? ( '\r'? '\n' | '\r') -> skip;
 NEWLINE: ({self.atStartOfInput()}? SPACES | ( '\r'? '\n' | '\r' | '\f') SPACES?) {
 tempt = Lexer.text.fget(self)
 newLine = re.sub("[^\r\n\f]+", "", tempt)
@@ -140,19 +141,22 @@ else:
             self.indents.pop()
 };
 Escape   : '\\';
-JoinLine : Escape SPACES? ( '\r'? '\n' | '\r') -> skip;
 //fragment UnicodeWS : [\p{White_Space}] ;
 /*====================================================================================================================*/
-program           : (NEWLINE | statement)* EOF;
-statement         : simpleStatement | compoundStatement;
-simpleStatement   : shortStatement (Semicolon shortStatement)* Semicolon? NEWLINE;
-shortStatement    : expression;
-compoundStatement : declarePackage | declareImport | declareFunction | ifStatement;
-suite             : simpleStatement | NEWLINE INDENT statement+ DEDENT;
-//suite  : '{' statement+ '}'
-Semicolon : ';';
+// $antlr-format  alignColons hanging; 
+program: ( NEWLINE | statement)* EOF;
+statement: simpleStatement | compoundStatement;
+simpleStatement: shortStatement (Semicolon shortStatement)* Semicolon?;
+shortStatement: expression;
+compoundStatement
+    : declarePackage
+    | declareImport
+    | declareVariable
+    | declareFunction
+    | ifStatement;
+suite: NEWLINE INDENT statement+ NEWLINE? DEDENT | NEWLINE? '{' statement+ '}';
+Semicolon: ';';
 /*====================================================================================================================*/
-// $antlr-format alignColons hanging;
 declarePackage: Package symbol;
 declareImport
     : Import symbol                  # ImportModule
@@ -186,12 +190,12 @@ In  : 'in';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
 declareFunction
-    : identifier inType outType? suite
-    | identifier outType? inType suite
-    | inType outType? identifier suite
-    | inType identifier outType? suite
-    | outType? inType identifier suite
-    | outType? identifier inType Colon suite;
+    : identifier Colon inType To? outType? suite //f: i => o
+    | identifier Colon outType? inType suite // f: o i
+    | inType To? outType? identifier Colon suite //i => o f :
+    | inType identifier outType? Colon suite // i f o
+    | outType? inType identifier Colon suite //o i f :
+    | outType? identifier inType Colon suite; // o f i
 inType
     : '[' identifier ']'
     | '(' functionParameter ')'
@@ -204,8 +208,10 @@ typeExpression    : identifier;
 To    : '=>';
 Colon : ':';
 /*====================================================================================================================*/
-controlFlow: Return;
-Return: 'return';
+declareVariable : outType? identifier suite;
+/*====================================================================================================================*/
+controlFlow : Return;
+Return      : 'return';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
 expression
@@ -215,7 +221,7 @@ expression
     | data;
 
 /*====================================================================================================================*/
-data: string | number|symbol;
+data: string | number | symbol;
 
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;

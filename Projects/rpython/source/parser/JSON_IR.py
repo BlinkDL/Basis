@@ -16,27 +16,27 @@ class JSON_IR(BasisVisitor):
 
     # region Import
     def visitImportModule(self, ctx: BasisParser.ImportModuleContext):
-        module = ctx.symbol()
+        module = self.visit(ctx.symbol())
         if DEBUG["IMPORT"]:
             debug_print("Import", module.getText())
         return self.visitChildren(ctx)
 
     def visitImportModuleAll(self, ctx: BasisParser.ImportModuleAllContext):
-        module = ctx.symbol()
+        module = self.visit(ctx.symbol())
         if DEBUG["IMPORT"]:
             debug_print("Import", module.getText())
             debug_print("*")
         return self.visitChildren(ctx)
 
     def visitImportModuleAlias(self, ctx: BasisParser.ImportModuleAliasContext):
-        module = ctx.symbol()
-        alias = ctx.identifier()
+        module = self.visit(ctx.symbol())
+        alias = self.visit(ctx.identifier())
         if DEBUG["IMPORT"]:
             debug_print("Import", module.getText() + " -> " + alias.getText())
         return self.visitChildren(ctx)
 
     def visitImportSymbols(self, ctx: BasisParser.ImportSymbolsContext):
-        module = ctx.symbol()
+        module = self.visit(ctx.symbol())
         if DEBUG["IMPORT"]:
             debug_print("Import", module.getText())
         return self.visitChildren(ctx)
@@ -56,14 +56,14 @@ class JSON_IR(BasisVisitor):
 
     # region Function
     def visitDeclareFunction(self, ctx: BasisParser.DeclareFunctionContext):
-        f = ctx.identifier().getText()
+        f = self.visit(ctx.identifier())
         if DEBUG["FUNCTION"]:
             debug_print("Function", f)
         i = ctx.inType()
         if ctx.outType() is None:
             o = "auto"
         else:
-            o = ctx.outType()
+            o = ctx.outType().getText()
         b = ctx.suite()
         if DEBUG["FUNCTION"]:
             debug_print("Type" + " => " + o, i.getText())
@@ -87,10 +87,11 @@ class JSON_IR(BasisVisitor):
             t = "auto"
         else:
             t = self.visit(ctx.typeExpression())
+        debug_print("Warning", ctx.typeExpression())
         return {
             "task": Tasks.FunctionParameter,
             "type": t,
-            "name": ctx.identifier().getText(),
+            "name": self.visit(ctx.identifier()),
             "modifier": Tasks.FunctionParameterNormal
         }
 
