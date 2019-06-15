@@ -170,6 +170,24 @@ class BasisListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by BasisParser#declareFunctionComplete.
+    def enterDeclareFunctionComplete(self, ctx:BasisParser.DeclareFunctionCompleteContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#declareFunctionComplete.
+    def exitDeclareFunctionComplete(self, ctx:BasisParser.DeclareFunctionCompleteContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#declareFunctionCompletion.
+    def enterDeclareFunctionCompletion(self, ctx:BasisParser.DeclareFunctionCompletionContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#declareFunctionCompletion.
+    def exitDeclareFunctionCompletion(self, ctx:BasisParser.DeclareFunctionCompletionContext):
+        pass
+
+
     # Enter a parse tree produced by BasisParser#inType.
     def enterInType(self, ctx:BasisParser.InTypeContext):
         pass
@@ -203,6 +221,15 @@ class BasisListener(ParseTreeListener):
 
     # Exit a parse tree produced by BasisParser#typeExpression.
     def exitTypeExpression(self, ctx:BasisParser.TypeExpressionContext):
+        pass
+
+
+    # Enter a parse tree produced by BasisParser#declareVariable.
+    def enterDeclareVariable(self, ctx:BasisParser.DeclareVariableContext):
+        pass
+
+    # Exit a parse tree produced by BasisParser#declareVariable.
+    def exitDeclareVariable(self, ctx:BasisParser.DeclareVariableContext):
         pass
 
 

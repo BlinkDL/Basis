@@ -55,26 +55,32 @@ class JSON_IR(BasisVisitor):
     # endregion
 
     # region Function
-    def visitDeclareFunction(self, ctx: BasisParser.DeclareFunctionContext):
+    def visitDeclareFunctionComplete(self, ctx:BasisParser.DeclareFunctionCompleteContext):
         f = self.visit(ctx.identifier())
         if DEBUG["FUNCTION"]:
             debug_print("Function", f)
         i = ctx.inType()
         if ctx.outType() is None:
-            o = "auto"
+            if DEBUG["FUNCTION"]:
+                debug_print("Type" + " => " + "auto", i.getText())
+                print()
+            return {
+                "task": Tasks.FunctionDeclaration,
+                "name": f,
+                "in": i,
+                "out": "auto",
+            }
         else:
             o = ctx.outType().getText()
-        b = ctx.suite()
-        if DEBUG["FUNCTION"]:
-            debug_print("Type" + " => " + o, i.getText())
-            debug_print("Body", b.getText())
-        return {
-            "task": Tasks.FunctionDeclaration,
-            "name": f,
-            "in": i,
-            "out": o,
-            "body": b,
-        }
+            if DEBUG["FUNCTION"]:
+                debug_print("Type" + " => " + o, i.getText())
+                print()
+            return {
+                "task": Tasks.FunctionDeclaration,
+                "name": f,
+                "in": i,
+                "out": o,
+            }
 
     def visitInType(self, ctx: BasisParser.InTypeContext):
         return self.visitChildren(ctx)

@@ -111,7 +111,7 @@ def atStartOfInput(self):
     return Lexer.column.fget(self) == 0 and Lexer.line.fget(self) == 1
 }
 // $antlr-format alignColons trailing;
-SPACES : [\t ]+ -> skip;
+SPACES   : [\t ]+ -> skip;
 JoinLine : Escape SPACES? ( '\r'? '\n' | '\r') -> skip;
 NEWLINE: ({self.atStartOfInput()}? SPACES | ( '\r'? '\n' | '\r' | '\f') SPACES?) {
 tempt = Lexer.text.fget(self)
@@ -140,7 +140,7 @@ else:
             self.emitToken(self.createDedent())
             self.indents.pop()
 };
-Escape   : '\\';
+Escape : '\\';
 //fragment UnicodeWS : [\p{White_Space}] ;
 /*====================================================================================================================*/
 // $antlr-format  alignColons hanging; 
@@ -189,13 +189,19 @@ For : 'for';
 In  : 'in';
 /*====================================================================================================================*/
 // $antlr-format alignColons hanging;
-declareFunction
-    : identifier Colon inType To? outType? suite //f: i => o
-    | identifier Colon outType? inType suite // f: o i
-    | inType To? outType? identifier Colon suite //i => o f :
-    | inType identifier outType? Colon suite // i f o
-    | outType? inType identifier Colon suite //o i f :
-    | outType? identifier inType Colon suite; // o f i
+declareFunction: declareFunctionComplete suite | declareFunctionCompletion suite;
+declareFunctionComplete
+    : identifier inType Colon outType? // f i : o
+    | identifier Colon inType To? outType? //f: i => o
+    | identifier Colon outType? inType // f: o i
+    | inType To? outType? identifier Colon //i => o f :
+    | inType identifier outType? Colon // i f o
+    | outType? inType identifier Colon //o i f :
+    | outType? identifier inType Colon; // o f i :
+declareFunctionCompletion
+    : identifier Colon outType? // f : o
+    | identifier outType? Colon // f o :
+    | outType? identifier Colon; // o f :
 inType
     : '[' identifier ']'
     | '(' functionParameter ')'
@@ -208,7 +214,9 @@ typeExpression    : identifier;
 To    : '=>';
 Colon : ':';
 /*====================================================================================================================*/
-declareVariable : outType? identifier suite;
+declareVariable : outType? identifier Set suite;
+
+Set : '=';
 /*====================================================================================================================*/
 controlFlow : Return;
 Return      : 'return';

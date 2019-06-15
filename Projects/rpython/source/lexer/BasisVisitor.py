@@ -99,6 +99,16 @@ class BasisVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by BasisParser#declareFunctionComplete.
+    def visitDeclareFunctionComplete(self, ctx:BasisParser.DeclareFunctionCompleteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BasisParser#declareFunctionCompletion.
+    def visitDeclareFunctionCompletion(self, ctx:BasisParser.DeclareFunctionCompletionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by BasisParser#inType.
     def visitInType(self, ctx:BasisParser.InTypeContext):
         return self.visitChildren(ctx)
@@ -116,6 +126,11 @@ class BasisVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BasisParser#typeExpression.
     def visitTypeExpression(self, ctx:BasisParser.TypeExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BasisParser#declareVariable.
+    def visitDeclareVariable(self, ctx:BasisParser.DeclareVariableContext):
         return self.visitChildren(ctx)
 
 
