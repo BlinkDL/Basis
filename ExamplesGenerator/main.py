@@ -3,90 +3,99 @@ import os
 import random
 import math
 
-code = open('function.basis', 'w')
+TAB = '\t' if random.random() < 0.3 else ' ' * random.randint(1, 5)
+
+file = open('../Examples/function.basis', 'w')
+
+def remove_duplicate(seq):
+    seen = set()
+
+    # skip 'original form' records, that is, x[-1]
+    return [x for x in seq if not (''.join(x[:-1]) in seen or seen.add(''.join(x[:-1])))]
+
+################ FOUND ALL POSSIBLE FORMS ################
+
+form = ['F:(i)=>o',
+        'F:(i)o',
+        'F:o(i)',
+        
+        'F(i):o',
+        'o F(i):',
+
+        '(i)=>o F:',
+        '(i)o F:',
+        'o(i)F:',
+]
+
+form += [x.replace('(i)', ' ') for x in form]
+form += [x.replace('o', ' ') for x in form]
+
+form = [x.replace('o F', 'o_F') for x in form]
+form = [x.replace(' ', '') for x in form]
+form = [x.replace('o_F', 'o F') for x in form]
+
+form = list(set(form))
+form.sort()
+
+print('\nfound', len(form), 'forms\n')
+for x in form:
+    print(x)
+
+################ EXPAND ################
+
+print('\nexpanding...\n')
+
+IN = ['x', 'int x']
+OUT = ['bool']
+sentence = []
+
+for f in form:
+    ff = list(f.replace('=>','@')) # f => list of token
+    for i in IN:
+        for o in OUT:
+            x = [k.replace('i', i).replace('o', o).replace('@', '=>') for k in ff]
+            x.append(f) # x[-1] = 'original form'
+            sentence.append(x)
+
+sentence = remove_duplicate(sentence)
+
+print('\nfound', len(sentence), 'sentences\n')
+for x in sentence:
+    print(''.join(x[:-1]))
+
+################ WRITE ################
+
 count = 0
 
-IN = ['int x', 'x']
-OUT = ['bool']
-TAB = '\t' if random.random() > 0.5 else '    '
+for x in sentence:
 
-def write(token):
-
-    global count
-
-    contains_IN = any(elem in token for elem in IN)
+    xx = x[:-1]
+    contains_IN = any(elem in xx for elem in IN)
     V = 'x == 6' if contains_IN else 'true'
 
-    token_bak = token.copy()
+    file.write('################### @def ' + x[-1] + '\n\n')
 
     for newline_STYLE in range(3):
 
+        c = x.copy()
+
         if newline_STYLE == 0:
-            token += ['{', V, '}']
+            c += ['{', V, '}']
         elif newline_STYLE == 1:
-            token += ['\n' + TAB + 'return ', V]
+            c += ['\n' + TAB + 'return ', V]
         else:
-            token += ['{', '\n', 'return ', V, '\n', '}']
+            c += ['{', '\n', 'return ', V, '\n', '}']
 
         count += 1
         f = 'F_' + str(count)
 
         space_count = random.randint(0, 2)
-        token = [
-            (a.replace('F', f)) + (' ' * space_count)    
-            for a in token
+        c = [
+            (a.replace('F', f)) + (' ' * space_count)   
+            for a in c
         ]
+        file.write(''.join(c) + '\n\n')
 
-        code.write(''.join(token) + '\n\n')
+print('\ndone:', count, 'results\n')
 
-        token = token_bak.copy()
-
-
-for i in IN:
-    for o in OUT:
-
-        code.write('# @def f: i => o\n')
-        write( ['F', ':', '(', i, ')', '=>', o] )
-
-        code.write('# @def f: i o\n')
-        write( ['F', ':', '(', i, ')', o] )
-
-        code.write('# @def f i : o\n')
-        write( ['F', '(', i, ')', ':', o] )
-
-        code.write('# @def f: o i\n')
-        write( ['F', ':', o, '(', i, ')'] )
-
-        code.write('# @def o f i :\n')
-        write( [o, ' F', '(', i, ')', ':'] )
-
-        code.write('# @def o i f :\n')
-        write( [o, '(', i, ')', 'F', ':'] )
-
-        code.write('# @def i o f :\n')
-        write( ['(', i, ')', o, ' F', ':'] )
-
-        code.write('# @def (i => o) f :\n')
-        write( ['(', i, ')', '=>', o, ' F', ':'] )
-
-for i in IN:
-    code.write('# @def f: i\n')
-    write( ['F', ':', '(', i, ')'] )
-
-    code.write('# @def f i :\n')
-    write( ['F', '(', i, ')', ':'] )
-
-    code.write('# @def i f :\n')
-    write( ['(', i, ')', ' F', ':'] )
-
-for o in OUT:
-    code.write('# @def f: o\n')
-    write( ['F', ':', o] )
-
-    code.write('# @def o f:\n')
-    write( [o, ' F', ':'] )
-
-code.write('# @def f:\n')
-write( ['F', ':'] )
-
-code.close()
+file.close()
