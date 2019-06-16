@@ -77,7 +77,7 @@ for x in sentence:
 
     for newline_STYLE in range(3):
 
-        c = x.copy()
+        c = xx.copy()
 
         if newline_STYLE == 0:
             c += ['{', V, '}']
