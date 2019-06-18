@@ -43,7 +43,7 @@ class Python_IR(BasisVisitor):
         if len(ctx.symbol()) == 1:
             alias = None
         else:
-            alias = self.visit(ctx.symbol(1)),
+            alias = self.visit(ctx.symbol(1))
         return Import.symbol_pair(self.visit(ctx.symbol(0)), alias)
 
     # endregion
