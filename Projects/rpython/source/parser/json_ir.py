@@ -9,7 +9,7 @@ from .taks import Tasks
 from .builder import Literal
 
 
-class JSON_IR(BasisVisitor):
+class Json_IR(BasisVisitor):
     def visitStatement(self, ctx: BasisParser.StatementContext):
         if DEBUG["STATEMENT"]:
             debug_print("Statement", ctx.getText())
@@ -126,7 +126,7 @@ class ParserTests(TestCase):
         lexer = BasisLexer(FileStream(path))
         stream = CommonTokenStream(lexer)
         parser = BasisParser(stream)
-        visitor = JSON_IR()
+        visitor = Json_IR()
         visitor.visitProgram(parser.program())
 
     def test_ast_print(self):

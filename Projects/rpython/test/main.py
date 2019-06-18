@@ -6,7 +6,7 @@ from antlr4 import FileStream, CommonTokenStream
 
 from ..source.lexer.BasisLexer import BasisLexer
 from ..source.lexer.BasisParser import BasisParser
-from ..source.parser.Python_IR import Python_IR
+from ..source.parser.python_target import PythonTarget
 from ..source.parser.debug import debug_print
 
 
@@ -16,7 +16,7 @@ class ParserTests(TestCase):
         lexer = BasisLexer(FileStream(path))
         stream = CommonTokenStream(lexer)
         parser = BasisParser(stream)
-        visitor = Python_IR()
+        visitor = PythonTarget()
         return visitor.visitProgram(parser.program())
 
     def python_gen(self, name: str):

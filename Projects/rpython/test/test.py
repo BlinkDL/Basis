@@ -1,5 +1,5 @@
 from ast import parse, Module, Expr, Num, BinOp, Add, FunctionDef, arguments, arg, Return, Name, Load, Assign, Store, \
-    Compare, Eq, ImportFrom, alias, Import
+    Compare, Eq, ImportFrom, alias, Import, List
 from astunparse import unparse, dump
 
 
@@ -7,12 +7,12 @@ def add(arg1: str, arg2: str) -> str:
     return arg1 + arg2
 
 
-def F_6(x: int) -> bool:
+def F_6(x: int, y, *args: [str]) -> bool:
     return x == 6
 
 
 expr = """
-def F_6(x: int) -> bool:
+def F_6(x: int, y, *args: [str]) -> bool:
     return x == 6
 """
 
@@ -20,12 +20,22 @@ if __name__ == "__main__":
     mod = Module(body=[FunctionDef(
         name='F_6',
         args=arguments(
-            args=[arg(
-                arg='x',
-                annotation=Name(
-                    id='int',
-                    ctx=Load()))],
-            vararg=None,
+            args=[
+                arg(
+                    arg='x',
+                    annotation=Name(
+                        id='int',
+                        ctx=Load())),
+                arg(
+                    arg='y',
+                    annotation=None)],
+            vararg=arg(
+                arg='args',
+                annotation=List(
+                    elts=[Name(
+                        id='str',
+                        ctx=Load())],
+                    ctx=Load())),
             kwonlyargs=[],
             kw_defaults=[],
             kwarg=None,
