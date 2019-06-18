@@ -4,8 +4,9 @@ from ..lexer.BasisParser import BasisParser
 from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
-from .debug import debug_print, DEBUG
+from .debug import DEBUG, debug_print
 from .taks import Tasks
+from .builder import Literal
 
 
 class JSON_IR(BasisVisitor):
@@ -55,7 +56,7 @@ class JSON_IR(BasisVisitor):
     # endregion
 
     # region Function
-    def visitDeclareFunctionComplete(self, ctx:BasisParser.DeclareFunctionCompleteContext):
+    def visitDeclareFunctionComplete(self, ctx: BasisParser.DeclareFunctionCompleteContext):
         f = self.visit(ctx.identifier())
         if DEBUG["FUNCTION"]:
             debug_print("Function", f)
@@ -110,8 +111,13 @@ class JSON_IR(BasisVisitor):
     def visitIdentifier(self, ctx: BasisParser.IdentifierContext):
         return ctx.getText()
 
+    def visitInteger(self, ctx: BasisParser.IntegerContext):
+        return Literal.from_int_dec(ctx.getText())
 
-# endregion
+    def visitDecimal(self, ctx: BasisParser.DecimalContext):
+        return Literal.from_float(ctx.getText())
+
+    # endregion
 
 
 class ParserTests(TestCase):
@@ -124,4 +130,4 @@ class ParserTests(TestCase):
         visitor.visitProgram(parser.program())
 
     def test_ast_print(self):
-        self.aster("../../examples/function.basis")
+        self.aster("../../examples/literal.basis")
