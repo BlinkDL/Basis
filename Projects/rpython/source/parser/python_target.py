@@ -4,10 +4,10 @@ from ..lexer.BasisParser import BasisParser
 from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
-from .builder import Import, Literal, ast_build
+from .builder import Import, Literal, Define, ast_build
 
 
-class Python_IR(BasisVisitor):
+class PythonTarget(BasisVisitor):
     def visitProgram(self, ctx: BasisParser.ProgramContext):
         stats = list(map(self.visit, ctx.statement()))
         return ast_build(stats)
@@ -48,7 +48,25 @@ class Python_IR(BasisVisitor):
 
     # endregion
 
+    # region TypeExpression
+
+    def visitTypeExpression(self, ctx: BasisParser.TypeExpressionContext):
+        # FIXME: use true type expr
+        t = ctx.getText()
+        return t
+
+    # endregion
+
     # region Function
+    def visitFunctionParameter(self, ctx: BasisParser.FunctionParameterContext):
+        name = self.visit(ctx.identifier())
+        if ctx.typeExpression() is None:
+            return Define.from_arg(name)
+        elif ctx.typeExpression().ctx.identifier() is not None:
+            typed = self.visit(ctx.typeExpression())
+            return Define.from_arg_typed(name, typed)
+        else:
+            print("Error")
 
     # endregion
 
@@ -74,7 +92,7 @@ class ParserTests(TestCase):
         lexer = BasisLexer(FileStream(path))
         stream = CommonTokenStream(lexer)
         parser = BasisParser(stream)
-        visitor = Python_IR()
+        visitor = PythonTarget()
         return visitor.visitProgram(parser.program())
 
     def test_ast_print(self):
