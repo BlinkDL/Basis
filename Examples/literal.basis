@@ -1,4 +1,4 @@
-# Integer
+# int(bigint)
 
 0
 1
@@ -8,7 +8,13 @@
 5
 6
 
-# Decimal
+922_3372_0368_5477_5807
+
+# i32
+
+21_4748_3647i32
+
+# float
 
 0.0
 0.
@@ -17,5 +23,24 @@
 .987654321
 123456789.987654321
 
+# Byte
 
+0x0
+0x1
+0x0123456789abcdef
+0o01234567
+0b01
 
+# String
+
+a = 1
+
+'string literal \n ${a}'
+
+"string formatted \n ${a}"
+
+# Special
+
+true
+false
+null
