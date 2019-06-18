@@ -161,8 +161,9 @@ Semicolon: ';';
 /*====================================================================================================================*/
 declarePackage: Package symbol;
 declareImport
-    : Import symbol As identifier?   # ImportModule
+    : Import symbol                  # ImportModule
     | Import symbol Dot Star         # ImportModuleAll
+    | Import symbol As identifier?    # ImportModuleAlias
     | Import symbol With importSuite # ImportSymbols;
 importSuite
     : (importAlias Comma?)*

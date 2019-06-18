@@ -4,32 +4,31 @@ from ..lexer.BasisParser import BasisParser
 from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
-from .debug import DEBUG, debug_print
 from .builder import Import, Literal, ast_build
 
 
-class JSON_IR(BasisVisitor):
+class Python_IR(BasisVisitor):
+    def visitProgram(self, ctx: BasisParser.ProgramContext):
+        stats = list(map(self.visit, ctx.statement()))
+        return ast_build(stats)
+
     def visitStatement(self, ctx: BasisParser.StatementContext):
-        debug_print("Statement", self.visitChildren(ctx))
+        # debug_print("Statement", self.visitChildren(ctx))
         return self.visitChildren(ctx)
 
     # region Import
     def visitImportModule(self, ctx: BasisParser.ImportModuleContext):
         module = self.visit(ctx.symbol())
-        if DEBUG["IMPORT"]:
-            debug_print("Import", module)
-        return self.visitChildren(ctx)
-
-    def visitImportModuleAll(self, ctx: BasisParser.ImportModuleAllContext):
-        module = self.visit(ctx.symbol())
-        return Import.import_module_all(module)
+        return Import.import_module(module, None)
 
     def visitImportModuleAlias(self, ctx: BasisParser.ImportModuleAliasContext):
         module = self.visit(ctx.symbol())
         alias = self.visit(ctx.identifier())
-        if DEBUG["IMPORT"]:
-            debug_print("Import", module + " -> " + alias)
-        return self.visitChildren(ctx)
+        return Import.import_module(module, alias)
+
+    def visitImportModuleAll(self, ctx: BasisParser.ImportModuleAllContext):
+        module = self.visit(ctx.symbol())
+        return Import.import_module_all(module)
 
     def visitImportSymbols(self, ctx: BasisParser.ImportSymbolsContext):
         module = self.visit(ctx.symbol())
@@ -42,15 +41,10 @@ class JSON_IR(BasisVisitor):
 
     def visitImportAlias(self, ctx: BasisParser.ImportAliasContext):
         if len(ctx.symbol()) == 1:
-            return Import.symbol_pair(
-                self.visit(ctx.symbol(0)),
-                None
-            )
+            alias = None
         else:
-            return Import.symbol_pair(
-                self.visit(ctx.symbol(0)),
-                self.visit(ctx.symbol(1)),
-            )
+            alias = self.visit(ctx.symbol(1)),
+        return Import.symbol_pair(self.visit(ctx.symbol(0)), alias)
 
     # endregion
 
@@ -80,8 +74,9 @@ class ParserTests(TestCase):
         lexer = BasisLexer(FileStream(path))
         stream = CommonTokenStream(lexer)
         parser = BasisParser(stream)
-        visitor = JSON_IR()
-        visitor.visitProgram(parser.program())
+        visitor = Python_IR()
+        return visitor.visitProgram(parser.program())
 
     def test_ast_print(self):
-        self.aster("../../examples/import.basis")
+        ast = self.aster("../../examples/import.basis")
+        print(ast)
