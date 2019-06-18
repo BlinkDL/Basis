@@ -154,14 +154,15 @@ compoundStatement
     | declareVariable
     | declareFunction
     | ifStatement;
-suite: NEWLINE INDENT statement+ NEWLINE? DEDENT | NEWLINE? '{' statement+ '}';
+suite
+    : NEWLINE INDENT statement+ NEWLINE? DEDENT
+    |  '{' NEWLINE? statement+  NEWLINE?'}';
 Semicolon: ';';
 /*====================================================================================================================*/
 declarePackage: Package symbol;
 declareImport
-    : Import symbol                  # ImportModule
+    : Import symbol As identifier?   # ImportModule
     | Import symbol Dot Star         # ImportModuleAll
-    | Import symbol As identifier    # ImportModuleAlias
     | Import symbol With importSuite # ImportSymbols;
 importSuite
     : (importAlias Comma?)*
@@ -323,7 +324,12 @@ fragment EmojiCharacter : [\p{Emoji}];
 fragment NameCharacter  : NameStartCharacter | Digit;
 /*====================================================================================================================*/
 LineComment : '#' ~[\r\n]* -> channel(HIDDEN);
-
+OPEN_PAREN : '(' {self.opened += 1};
+CLOSE_PAREN : ')' {self.opened -= 1};
+OPEN_BRACK : '[' {self.opened += 1};
+CLOSE_BRACK : ']' {self.opened -= 1};
+OPEN_BRACE : '{' {self.opened += 1};
+CLOSE_BRACE : '}' {self.opened -= 1};
 /*====================================================================================================================*/
 
 level2 : Modulo;
