@@ -156,15 +156,15 @@ compoundStatement
     | ifStatement;
 suite
     : NEWLINE INDENT statement+ NEWLINE? DEDENT
-    |  '{' NEWLINE? statement+  NEWLINE?'}';
+    | '{' NEWLINE? statement+ NEWLINE? '}';
 Semicolon: ';';
 /*====================================================================================================================*/
 declarePackage: Package symbol;
 declareImport
-    : Import symbol                  # ImportModule
-    | Import symbol Dot Star         # ImportModuleAll
-    | Import symbol As identifier?    # ImportModuleAlias
-    | Import symbol With importSuite # ImportSymbols;
+    : Import path = Dot* symbol                  # ImportModule
+    | Import path = Dot* symbol Dot Star         # ImportModuleAll
+    | Import path = Dot* symbol As identifier?   # ImportModuleAlias
+    | Import path = Dot* symbol With importSuite # ImportSymbols;
 importSuite
     : (importAlias Comma?)*
     | NEWLINE INDENT (importAlias Comma? NEWLINE?)* DEDENT;
@@ -227,6 +227,7 @@ Return      : 'return';
 expression
     : expression level1 expression
     | expression level2 expression
+    | expression level3 expression
     | controlFlow expression
     | data;
 
@@ -325,17 +326,56 @@ fragment EmojiCharacter : [\p{Emoji}];
 fragment NameCharacter  : NameStartCharacter | Digit;
 /*====================================================================================================================*/
 LineComment : '#' ~[\r\n]* -> channel(HIDDEN);
-OPEN_PAREN : '(' {self.opened += 1};
+OPEN_PAREN  : '(' {self.opened += 1};
 CLOSE_PAREN : ')' {self.opened -= 1};
-OPEN_BRACK : '[' {self.opened += 1};
+OPEN_BRACK  : '[' {self.opened += 1};
 CLOSE_BRACK : ']' {self.opened -= 1};
-OPEN_BRACE : '{' {self.opened += 1};
+OPEN_BRACE  : '{' {self.opened += 1};
 CLOSE_BRACE : '}' {self.opened -= 1};
 /*====================================================================================================================*/
 
-level2 : Modulo;
 level1 : Equal;
+level2 : Modulo;
+level3 : Plus | Minus;
 
-Modulo : '%';
-Equal  : '==';
-
+// $antlr-format alignColons trailing;
+/* <> */
+LeftShift   : '<<' | '\u226A'; //U+226A ≪
+LessEqual   : '<=';
+Less        : '<';
+RightShift  : '>>' | '\u226B'; //U+226B ≫
+GraterEqual : '>=';
+Grater      : '>';
+/* +-÷ */
+Increase : '++';
+Plus     : '+';
+Decrease : '--';
+Minus    : '-';
+Times  : 'times';
+DOT      : '\u22C5'; //U+22C5 ⋅
+Quotient : '//';
+Divide : 'divide';
+Modulo   : '%';
+/* =~ */
+Equivalent    : '===';
+NotEquivalent : '=!=';
+Equal         : '==';
+Concat        : '~~';
+Destruct      : '~=';
+/* |&! */
+LogicOr    : '||' | '\u2227'; //U+2227 ∧
+LogicAnd   : '&&' | '\u2228'; //U+2228 ∨
+DoubleBang : '!!';
+NotEqual   : '!=' | '\u2260'; //U+2260 ≠
+BitNot     : '!' | '\uFF01'; //U+FF01 ！
+LogicNot   : DoubleBang | '\u00AC'; //U+00AC ¬
+Elvis      : ':?';
+/* $ @ */
+Annotation : '@';
+/* upper lower*/
+Quote     : '`';
+Acute     : '\u00B4'; // U+00B4 ´
+Quotation : '\'';
+Ellipsis  : '...'; //…
+/* Prefix */
+Reciprocal : '\u215F'; //U+215F ⅟

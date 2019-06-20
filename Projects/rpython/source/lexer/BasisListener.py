@@ -368,6 +368,15 @@ class BasisListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by BasisParser#level1.
+    def enterLevel1(self, ctx:BasisParser.Level1Context):
+        pass
+
+    # Exit a parse tree produced by BasisParser#level1.
+    def exitLevel1(self, ctx:BasisParser.Level1Context):
+        pass
+
+
     # Enter a parse tree produced by BasisParser#level2.
     def enterLevel2(self, ctx:BasisParser.Level2Context):
         pass
@@ -377,12 +386,12 @@ class BasisListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by BasisParser#level1.
-    def enterLevel1(self, ctx:BasisParser.Level1Context):
+    # Enter a parse tree produced by BasisParser#level3.
+    def enterLevel3(self, ctx:BasisParser.Level3Context):
         pass
 
-    # Exit a parse tree produced by BasisParser#level1.
-    def exitLevel1(self, ctx:BasisParser.Level1Context):
+    # Exit a parse tree produced by BasisParser#level3.
+    def exitLevel3(self, ctx:BasisParser.Level3Context):
         pass
 
 

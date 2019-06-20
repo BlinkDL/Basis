@@ -209,13 +209,18 @@ class BasisVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by BasisParser#level1.
+    def visitLevel1(self, ctx:BasisParser.Level1Context):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by BasisParser#level2.
     def visitLevel2(self, ctx:BasisParser.Level2Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BasisParser#level1.
-    def visitLevel1(self, ctx:BasisParser.Level1Context):
+    # Visit a parse tree produced by BasisParser#level3.
+    def visitLevel3(self, ctx:BasisParser.Level3Context):
         return self.visitChildren(ctx)
 
 
