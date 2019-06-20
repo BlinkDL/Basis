@@ -316,6 +316,7 @@ fragment Letter
     | (U | V | W | X | Y | Z);
 fragment NameStartCharacter
     : (Underline | Letter)
+    | (Dollar | Pound | Yuan)
     | [\p{Latin}]
     | [\p{Han}]
     | [\p{Hiragana}]
@@ -340,9 +341,11 @@ level3 : Plus | Minus;
 
 // $antlr-format alignColons trailing;
 /* <> */
+Read        : '<<<';
 LeftShift   : '<<' | '\u226A'; //U+226A ≪
 LessEqual   : '<=';
 Less        : '<';
+Write       : '>>>';
 RightShift  : '>>' | '\u226B'; //U+226B ≫
 GraterEqual : '>=';
 Grater      : '>';
@@ -351,27 +354,32 @@ Increase : '++';
 Plus     : '+';
 Decrease : '--';
 Minus    : '-';
-Times  : 'times';
-DOT      : '\u22C5'; //U+22C5 ⋅
+Times    : 'times' | '\u22C5'; //U+22C5 ⋅
 Quotient : '//';
-Divide : 'divide';
+Divide   : 'divide';
 Modulo   : '%';
-/* =~ */
+/* = */
 Equivalent    : '===';
 NotEquivalent : '=!=';
 Equal         : '==';
-Concat        : '~~';
-Destruct      : '~=';
 /* |&! */
 LogicOr    : '||' | '\u2227'; //U+2227 ∧
+BitOr      : '|';
 LogicAnd   : '&&' | '\u2228'; //U+2228 ∨
+BitAnd     : '&';
 DoubleBang : '!!';
 NotEqual   : '!=' | '\u2260'; //U+2260 ≠
-BitNot     : '!' | '\uFF01'; //U+FF01 ！
 LogicNot   : DoubleBang | '\u00AC'; //U+00AC ¬
+BitNot     : '!' | '\uFF01'; //U+FF01 ！
 Elvis      : ':?';
 /* $ @ */
 Annotation : '@';
+Dollar     : '$';
+Pound      : '£';
+Yuan       : '¥';
+Concat     : '~~';
+Destruct   : '~=';
+Tilde      : '~';
 /* upper lower*/
 Quote     : '`';
 Acute     : '\u00B4'; // U+00B4 ´
