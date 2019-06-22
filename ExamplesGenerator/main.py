@@ -32,6 +32,9 @@ form += [x.replace('o', ' ') for x in form]
 
 form = [x.replace('o F', 'o_F') for x in form]
 form = [x.replace(' ', '') for x in form]
+
+form.remove('F:=>') # remove this confusing form
+
 form = [x.replace('o_F', 'o F') for x in form]
 
 form = list(set(form))
@@ -42,8 +45,6 @@ for x in form:
     print(x)
 
 ################ EXPAND ################
-
-print('\nexpanding...\n')
 
 IN = ['x', 'int x']
 OUT = ['bool']

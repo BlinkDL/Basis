@@ -10,6 +10,7 @@
             font-family: sans-serif;
             margin: 0px;
             padding: 0px;
+            font-size: 1.1vw;
         }
 
         #wrap {
@@ -43,16 +44,89 @@
             width: 100%;
         }
 
+        .prettyprint {
+            font-size: 1.28vw;
+        }
+
+        .code {
+            display: flex;
+            margin-left: -1vw;
+        }
+        .code pre {
+            flex: 1;
+            width: 10vw !important;
+            padding-left: 1vw !important;
+            padding-top: 0.5vw !important;
+            padding-bottom: 0.5vw !important;
+            border: 0 !important;
+            background: #eee !important;
+            border-radius: 1vw !important;
+            margin-left: 1vw;
+            line-height: 150%;
+        }
     </style>
 </head>
 
-<body>
+<body style="width:100%">
     <div id="wrap">
-        <a href="https://zhuanlan.zhihu.com/p/68906047"><img src='basislang.png'></a>
+        <a href="https://zhuanlan.zhihu.com/p/68906047" target="_blank"><img src='basislang.png'></a>
     </div>
-    <div id="footer">
-        <p></p>
+    <div style="position: absolute; top: 85%; width: 80vw; margin: 0 10vw; margin-bottom: 10vw">
+        Basis is like C++ meets Python. These three are all valid Basis programs:
+        <div class="code">
+            <pre class="prettyprint">
+module main
+import sys.console as console
+    
+
+tellPrime : (n)    
+    n ≤ 1 : 'bad'               
+    for i = 2, i * i ≤ n, i++
+    n % i == 0 : 'bad'
+    return 'good'
+
+
+
+main :
+    print = console.writeLine 
+    print(tellPrime(17))</pre>
+            <pre class="prettyprint">
+module main      
+import sys.console as console
+    
+
+tellPrime : (int n) ⇒ string    
+    if n ≤ 1
+    return 'bad'
+    for i = 2, i * i ≤ n, i++
+if n % i == 0
+    return 'bad'
+    return 'good'
+
+main : void
+    print = console.writeLine 
+    print(tellPrime(17))</pre>
+            <pre class="prettyprint">
+module main
+import sys.object.*        
+import sys.console as console    
+
+tellPrime(int n) : string {
+    if n ≤ 1 { return 'bad' }           
+    for i = 2, i * i ≤ n, i++ {
+    if n % i == 0 { return 'bad' }
+    }
+    return 'good'
+}
+
+void main() {
+    print = console.writeLine
+    print(tellPrime(17))
+}</pre>
+        </div>
+        Basis is available on <a href="https://github.com/BlinkDL/Basis" target="_blank">GitHub</a> and contributions are welcome. License: MIT.
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 
 </html>
