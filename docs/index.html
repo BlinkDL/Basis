@@ -80,49 +80,50 @@ import sys.console as console
     
 
 tellPrime : (n)    
-    n ≤ 1 : 'bad'               
-    for i = 2, i * i ≤ n, i++
+  n ≤ 1 : 'bad'               
+  for i = 2, i * i ≤ n, i++
     n % i == 0 : 'bad'
-    return 'good'
+  return 'good'
 
 
 
 main :
-    print = console.writeLine 
-    print(tellPrime(17))</pre>
+  print = console.writeLine 
+  print(tellPrime(17))</pre>
             <pre class="prettyprint">
 module main      
 import sys.console as console
     
 
 tellPrime : (int n) ⇒ string    
-    if n ≤ 1
+  if n ≤ 1
     return 'bad'
-    for i = 2, i * i ≤ n, i++
-if n % i == 0
-    return 'bad'
-    return 'good'
+  for i = 2, i * i ≤ n, i++
+    if n % i == 0
+      return 'bad'
+  return 'good'
 
 main : void
-    print = console.writeLine 
-    print(tellPrime(17))</pre>
+  print = console.writeLine 
+  print(tellPrime(17))</pre>
             <pre class="prettyprint">
 module main
 import sys.object.*        
 import sys.console as console    
 
 tellPrime(int n) : string {
-    if n ≤ 1 { return 'bad' }           
-    for i = 2, i * i ≤ n, i++ {
+  if n ≤ 1 { return 'bad' }           
+  for i = 2, i * i ≤ n, i++ {
     if n % i == 0 { return 'bad' }
-    }
-    return 'good'
+  }
+  return 'good'
 }
 
 void main() {
-    print = console.writeLine
-    print(tellPrime(17))
-}</pre>
+  print = console.writeLine
+  print(tellPrime(17))
+}
+</pre>
         </div>
         Basis is available on <a href="https://github.com/BlinkDL/Basis" target="_blank">GitHub</a> and contributions are welcome. License: MIT.
     </div>
