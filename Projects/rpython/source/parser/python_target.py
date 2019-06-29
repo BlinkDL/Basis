@@ -4,7 +4,7 @@ from ..lexer.BasisParser import BasisParser
 from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
-from .builder import Import, Literal, Define, ast_build
+from .builder import Import, Literal, Define, Type, ast_build
 
 
 class PythonTarget(BasisVisitor):
@@ -51,22 +51,30 @@ class PythonTarget(BasisVisitor):
     # region TypeExpression
 
     def visitTypeExpression(self, ctx: BasisParser.TypeExpressionContext):
-        # FIXME: use true type expr
-        t = ctx.getText()
-        return t
+        if ctx.identifier() is not None:
+            typed = self.visit(ctx.identifier())
+            return Type.symbol_type(typed)
+        else:
+            return ctx.getText()
 
     # endregion
 
     # region Function
+    def visitInType(self, ctx: BasisParser.InTypeContext):
+        ins = list(map(self.visit, ctx.functionParameter()))
+        print(ins)
+        return list(map(self.visit, ctx.functionParameter()))
+
+    def visitOutType(self, ctx: BasisParser.OutTypeContext):
+        return self.visit(ctx.typeExpression())
+
     def visitFunctionParameter(self, ctx: BasisParser.FunctionParameterContext):
         name = self.visit(ctx.identifier())
         if ctx.typeExpression() is None:
-            return Define.from_arg(name)
-        elif ctx.typeExpression().ctx.identifier() is not None:
-            typed = self.visit(ctx.typeExpression())
-            return Define.from_arg_typed(name, typed)
+            return Define.from_arg(name, None)
         else:
-            print("Error")
+            typed = self.visit(ctx.typeExpression())
+            return Define.from_arg(name, typed)
 
     # endregion
 
