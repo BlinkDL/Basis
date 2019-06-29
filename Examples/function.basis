@@ -1,9 +1,9 @@
 ################### @def (i)=>F:
 
-(  x  )  =>  F_1  :  {  x == 6  }  
+(x)=>F_1:{x == 6}
 
 ( x ) => F_2 : 
- return  x == 6 
+	return  x == 6 
 
 (  x  )  =>  F_3  :  {  
   return   x == 6  
@@ -11,32 +11,32 @@
 
 ################### @def (i)=>F:
 
-(  int x  )  =>  F_4  :  {  x == 6  }  
+(int x)=>F_4:{x == 6}
 
-( int x ) => F_5 : 
- return  x == 6 
+(int x)=>F_5:
+	return x == 6
 
-(  int x  )  =>  F_6  :  {  
-  return   x == 6  
-  }  
+(int x)=>F_6:{
+return x == 6
+}
 
 ################### @def (i)=>o F:
 
 (x)=>bool F_7:{x == 6}
 
-(  x  )  =>  bool     F_8  :  
- return   x == 6  
+(x)=>bool F_8:
+	return x == 6
 
-( x ) => bool   F_9 : { 
- return  x == 6 
- } 
+(x)=>bool F_9:{
+return x == 6
+}
 
 ################### @def (i)=>o F:
 
 (  int x  )  =>  bool     F_10  :  {  x == 6  }  
 
-( int x ) => bool   F_11 : 
- return  x == 6 
+(int x)=>bool F_11:
+	return x == 6
 
 ( int x ) => bool   F_12 : { 
  return  x == 6 
@@ -44,21 +44,21 @@
 
 ################### @def (i)F:
 
-(  x  )  F_13  :  {  x == 6  }  
+(x)F_13:{x == 6}
 
 (x)F_14:
- return x == 6
+	return x == 6
 
-(x)F_15:{
-return x == 6
-}
+( x ) F_15 : { 
+ return  x == 6 
+ } 
 
 ################### @def (i)F:
 
 (  int x  )  F_16  :  {  x == 6  }  
 
-(int x)F_17:
- return x == 6
+(  int x  )  F_17  :  
+	return   x == 6  
 
 ( int x ) F_18 : { 
  return  x == 6 
@@ -69,18 +69,18 @@ return x == 6
 ( x ) bool   F_19 : { x == 6 } 
 
 (  x  )  bool     F_20  :  
- return   x == 6  
+	return   x == 6  
 
-( x ) bool   F_21 : { 
- return  x == 6 
- } 
+(  x  )  bool     F_21  :  {  
+  return   x == 6  
+  }  
 
 ################### @def (i)o F:
 
-(int x)bool F_22:{x == 6}
+(  int x  )  bool     F_22  :  {  x == 6  }  
 
-(int x)bool F_23:
- return x == 6
+(  int x  )  bool     F_23  :  
+	return   x == 6  
 
 (  int x  )  bool     F_24  :  {  
   return   x == 6  
@@ -88,43 +88,43 @@ return x == 6
 
 ################### @def =>F:
 
-=>  F_25  :  {  true  }  
+=>F_25:{true}
 
-=> F_26 : 
+=>F_26:
+	return true
+
+=> F_27 : { 
  return  true 
-
-=>  F_27  :  {  
-  return   true  
-  }  
+ } 
 
 ################### @def =>o F:
 
-=>bool F_28:{true}
+=>  bool     F_28  :  {  true  }  
 
-=>bool F_29:
- return true
+=> bool   F_29 : 
+	return  true 
 
-=> bool   F_30 : { 
- return  true 
- } 
-
-################### @def F(i):
-
-F_31(x):{x == 6}
-
-F_32(x):
- return x == 6
-
-F_33 ( x ) : { 
- return  x == 6 
- } 
+=>  bool     F_30  :  {  
+  return   true  
+  }  
 
 ################### @def F(i):
 
-F_34  (  int x  )  :  {  x == 6  }  
+F_31 ( x ) : { x == 6 } 
+
+F_32 ( x ) : 
+	return  x == 6 
+
+F_33  (  x  )  :  {  
+  return   x == 6  
+  }  
+
+################### @def F(i):
+
+F_34(int x):{x == 6}
 
 F_35(int x):
- return x == 6
+	return x == 6
 
 F_36 ( int x ) : { 
  return  x == 6 
@@ -134,8 +134,8 @@ F_36 ( int x ) : {
 
 F_37 ( x ) : bool { x == 6 } 
 
-F_38  (  x  )  :  bool  
- return   x == 6  
+F_38(x):bool
+	return x == 6
 
 F_39  (  x  )  :  bool  {  
   return   x == 6  
@@ -143,10 +143,10 @@ F_39  (  x  )  :  bool  {
 
 ################### @def F(i):o
 
-F_40 ( int x ) : bool { x == 6 } 
+F_40(int x):bool{x == 6}
 
 F_41(int x):bool
- return x == 6
+	return x == 6
 
 F_42 ( int x ) : bool { 
  return  x == 6 
@@ -157,7 +157,7 @@ F_42 ( int x ) : bool {
 F_43  :  {  true  }  
 
 F_44 : 
- return  true 
+	return  true 
 
 F_45  :  {  
   return   true  
@@ -165,32 +165,32 @@ F_45  :  {
 
 ################### @def F:(i)
 
-F_46 : ( x ) { x == 6 } 
+F_46  :  (  x  )  {  x == 6  }  
 
-F_47  :  (  x  )  
- return   x == 6  
+F_47 : ( x ) 
+	return  x == 6 
 
-F_48  :  (  x  )  {  
-  return   x == 6  
-  }  
+F_48:(x){
+return x == 6
+}
 
 ################### @def F:(i)
 
-F_49:(int x){x == 6}
+F_49  :  (  int x  )  {  x == 6  }  
 
-F_50:(int x)
- return x == 6
+F_50  :  (  int x  )  
+	return   x == 6  
 
-F_51:(int x){
-return x == 6
-}
+F_51 : ( int x ) { 
+ return  x == 6 
+ } 
 
 ################### @def F:(i)=>
 
 F_52  :  (  x  )  =>  {  x == 6  }  
 
-F_53:(x)=>
- return x == 6
+F_53  :  (  x  )  =>  
+	return   x == 6  
 
 F_54  :  (  x  )  =>  {  
   return   x == 6  
@@ -200,19 +200,19 @@ F_54  :  (  x  )  =>  {
 
 F_55 : ( int x ) => { x == 6 } 
 
-F_56  :  (  int x  )  =>  
- return   x == 6  
+F_56:(int x)=>
+	return x == 6
 
-F_57  :  (  int x  )  =>  {  
-  return   x == 6  
-  }  
+F_57 : ( int x ) => { 
+ return  x == 6 
+ } 
 
 ################### @def F:(i)=>o
 
 F_58 : ( x ) => bool { x == 6 } 
 
-F_59  :  (  x  )  =>  bool  
- return   x == 6  
+F_59:(x)=>bool
+	return x == 6
 
 F_60  :  (  x  )  =>  bool  {  
   return   x == 6  
@@ -220,21 +220,21 @@ F_60  :  (  x  )  =>  bool  {
 
 ################### @def F:(i)=>o
 
-F_61:(int x)=>bool{x == 6}
+F_61 : ( int x ) => bool { x == 6 } 
 
-F_62  :  (  int x  )  =>  bool  
- return   x == 6  
+F_62:(int x)=>bool
+	return x == 6
 
-F_63  :  (  int x  )  =>  bool  {  
-  return   x == 6  
-  }  
+F_63:(int x)=>bool{
+return x == 6
+}
 
 ################### @def F:(i)o
 
 F_64:(x)bool{x == 6}
 
 F_65:(x)bool
- return x == 6
+	return x == 6
 
 F_66  :  (  x  )  bool  {  
   return   x == 6  
@@ -244,120 +244,109 @@ F_66  :  (  x  )  bool  {
 
 F_67:(int x)bool{x == 6}
 
-F_68 : ( int x ) bool 
- return  x == 6 
+F_68  :  (  int x  )  bool  
+	return   x == 6  
 
-F_69 : ( int x ) bool { 
- return  x == 6 
- } 
-
-################### @def F:=>
-
-F_70:=>{true}
-
-F_71:=>
- return true
-
-F_72 : => { 
- return  true 
- } 
+F_69  :  (  int x  )  bool  {  
+  return   x == 6  
+  }  
 
 ################### @def F:=>o
 
-F_73 : => bool { true } 
+F_70  :  =>  bool  {  true  }  
 
-F_74 : => bool 
- return  true 
+F_71  :  =>  bool  
+	return   true  
 
-F_75  :  =>  bool  {  
+F_72  :  =>  bool  {  
   return   true  
   }  
 
 ################### @def F:o
 
-F_76  :  bool  {  true  }  
+F_73 : bool { true } 
 
-F_77:bool
- return true
+F_74  :  bool  
+	return   true  
 
-F_78:bool{
-return true
-}
+F_75 : bool { 
+ return  true 
+ } 
 
 ################### @def F:o(i)
 
-F_79 : bool ( x ) { x == 6 } 
+F_76:bool(x){x == 6}
 
-F_80:bool(x)
- return x == 6
+F_77 : bool ( x ) 
+	return  x == 6 
 
-F_81:bool(x){
+F_78 : bool ( x ) { 
+ return  x == 6 
+ } 
+
+################### @def F:o(i)
+
+F_79 : bool ( int x ) { x == 6 } 
+
+F_80  :  bool  (  int x  )  
+	return   x == 6  
+
+F_81 : bool ( int x ) { 
+ return  x == 6 
+ } 
+
+################### @def o F(i):
+
+bool   F_82 ( x ) : { x == 6 } 
+
+bool F_83(x):
+	return x == 6
+
+bool   F_84 ( x ) : { 
+ return  x == 6 
+ } 
+
+################### @def o F(i):
+
+bool     F_85  (  int x  )  :  {  x == 6  }  
+
+bool     F_86  (  int x  )  :  
+	return   x == 6  
+
+bool F_87(int x):{
 return x == 6
 }
 
-################### @def F:o(i)
-
-F_82 : bool ( int x ) { x == 6 } 
-
-F_83:bool(int x)
- return x == 6
-
-F_84 : bool ( int x ) { 
- return  x == 6 
- } 
-
-################### @def o F(i):
-
-bool F_85(x):{x == 6}
-
-bool   F_86 ( x ) : 
- return  x == 6 
-
-bool   F_87 ( x ) : { 
- return  x == 6 
- } 
-
-################### @def o F(i):
-
-bool   F_88 ( int x ) : { x == 6 } 
-
-bool F_89(int x):
- return x == 6
-
-bool   F_90 ( int x ) : { 
- return  x == 6 
- } 
-
 ################### @def o F:
 
-bool     F_91  :  {  true  }  
+bool     F_88  :  {  true  }  
 
-bool   F_92 : 
- return  true 
+bool   F_89 : 
+	return  true 
 
-bool F_93:{
-return true
-}
-
-################### @def o(i)F:
-
-bool ( x ) F_94 : { x == 6 } 
-
-bool  (  x  )  F_95  :  
- return   x == 6  
-
-bool  (  x  )  F_96  :  {  
-  return   x == 6  
+bool     F_90  :  {  
+  return   true  
   }  
 
 ################### @def o(i)F:
 
-bool(int x)F_97:{x == 6}
+bool(x)F_91:{x == 6}
 
-bool ( int x ) F_98 : 
+bool(x)F_92:
+	return x == 6
+
+bool ( x ) F_93 : { 
  return  x == 6 
+ } 
 
-bool(int x)F_99:{
-return x == 6
-}
+################### @def o(i)F:
+
+bool  (  int x  )  F_94  :  {  x == 6  }  
+
+bool(int x)F_95:
+	return x == 6
+
+bool  (  int x  )  F_96  :  {  
+  return   x == 6  
+  }  
 
