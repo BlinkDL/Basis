@@ -130,4 +130,4 @@ class ParserTests(TestCase):
         visitor.visitProgram(parser.program())
 
     def test_ast_print(self):
-        self.aster("../../examples/literal.basis")
+        self.aster("../../examples/function.basis")

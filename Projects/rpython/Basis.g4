@@ -263,10 +263,10 @@ integer : Integer;
 
 Decimal     : Integer Dot Digit;
 DecimalBad  : Integer Dot | Dot Digit+;
-Binary      : Zero B Bin+;
-Octal       : Zero O Oct+;
-Hexadecimal : Zero X Hex+;
-Integer     : Zero+ | [1-9] Digit*;
+Binary      : Zero B (Underline? Bin)+;
+Octal       : Zero O (Underline? Oct)+;
+Hexadecimal : Zero X (Underline? Hex)+;
+Integer     : Zero+ | [1-9] (Underline? Digit)*;
 Exponent    : '*^';
 Base        : '/^';
 

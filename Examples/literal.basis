@@ -33,8 +33,6 @@
 
 # String
 
-a = 1
-
 'string literal \n ${a}'
 
 "string formatted \n ${a}"
