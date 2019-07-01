@@ -4,7 +4,7 @@ from ..lexer.BasisParser import BasisParser
 from unittest import TestCase
 from ..lexer.BasisLexer import BasisLexer
 from antlr4 import FileStream, CommonTokenStream
-from .builder import Import, Literal, Define, Type, ast_build
+from .builder import Import, Literal, Expression, Define, Type, ast_build
 
 
 class PythonTarget(BasisVisitor):
@@ -45,6 +45,14 @@ class PythonTarget(BasisVisitor):
         else:
             alias = self.visit(ctx.symbol(1))
         return Import.symbol_pair(self.visit(ctx.symbol(0)), alias)
+
+    # endregion
+
+    # region Expression
+
+    def visitExpression(self, ctx: BasisParser.ExpressionContext):
+        body = self.visitChildren(ctx)
+        return Expression.build(body)
 
     # endregion
 

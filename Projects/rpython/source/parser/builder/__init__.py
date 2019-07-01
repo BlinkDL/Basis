@@ -4,6 +4,7 @@ from .literal import Literal
 from .module import Import
 from .define import Define
 from .typed import Type
+from .expression import Expression
 
 
 def ast_build(exprs):

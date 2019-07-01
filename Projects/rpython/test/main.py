@@ -29,5 +29,8 @@ class ParserTests(TestCase):
         debug_print("Testing", name)
         print(datetime.datetime.now() - now)
 
-    def test_as_python(self):
+    def test_import(self):
         self.python_gen("import.basis")
+
+    def test_literal(self):
+        self.python_gen("literal.basis")
