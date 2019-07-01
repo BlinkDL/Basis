@@ -261,7 +261,7 @@ decimal : Decimal | DecimalBad;
 byte    : Hexadecimal | Octal | Binary;
 integer : Integer;
 
-Decimal     : Integer Dot Digit;
+Decimal     : Integer Dot Digit+;
 DecimalBad  : Integer Dot | Dot Digit+;
 Binary      : Zero B (Underline? Bin)+;
 Octal       : Zero O (Underline? Oct)+;
